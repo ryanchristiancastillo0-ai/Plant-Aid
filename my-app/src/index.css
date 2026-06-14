@@ -1,0 +1,20 @@
+/* 1. Core Tailwind v4 setup */
+@import "tailwindcss";
+
+/* 2. Self-hosted Google Fonts via npm */
+@import "@fontsource/plus-jakarta-sans";
+@import "@fontsource/manrope";
+
+/* 3. Global styles and custom bento transition rules */
+body { 
+  font-family: 'Manrope', sans-serif; 
+  -webkit-font-smoothing: antialiased; 
+}
+
+.font-headline { 
+  font-family: 'Plus Jakarta Sans', sans-serif; 
+}
+
+.bento-card { 
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); 
+}

@@ -1,0 +1,1 @@
+export const ORGANS = ['Leaf', 'Flower', 'Fruit', 'Bark', 'Auto'];
