@@ -214,7 +214,7 @@ export default function ProfileDropdown() {
               Desktop : fixed top-right, positioned via inline style
                         so it's immune to any parent stacking context (fixed headers, transforms, etc.) */}
           <div
-            className="z-50 bg-white flex flex-col overflow-hidden fixed bottom-0 left-0 right-0 rounded-t-3xl shadow-2xl max-h-[85dvh] sm:bottom-auto sm:left-auto sm:right-auto sm:top-auto sm:w-64 sm:rounded-2xl sm:border sm:border-zinc-200/80 sm:shadow-xl sm:shadow-zinc-900/10"
+            className="z-50 bg-white flex flex-col overflow-hidden fixed bottom-16 left-0 right-0 rounded-t-3xl shadow-2xl max-h-[85dvh] sm:bottom-auto sm:left-auto sm:right-auto sm:top-auto sm:w-64 sm:rounded-2xl sm:border sm:border-zinc-200/80 sm:shadow-xl sm:shadow-zinc-900/10"
             style={{
               // on desktop override: pin to viewport, not to any parent
               ...(window.innerWidth >= 640 && {
