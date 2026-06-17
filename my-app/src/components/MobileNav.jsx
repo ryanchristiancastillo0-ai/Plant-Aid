@@ -365,10 +365,10 @@ function QuickResult({ preview, topMatch, confidence, healthCfg, result, onRetry
         </button>
         <button
           onClick={onViewDetails}
-          className="flex-1 h-11 bg-[#1b6b51] text-white rounded-xl text-sm font-bold flex items-center justify-center gap-1.5 hover:opacity-90 transition-all active:scale-95"
+          className="flex-1 h-11 bg-[#1b6b51] text-white rounded-xl text-xs lg:text-sm font-bold flex items-center justify-center gap-1.5 hover:opacity-90 transition-all active:scale-95"
           style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}
         >
-          View Full Details
+        View Full Details
           <MdArrowForward className="text-base" />
         </button>
       </div>
