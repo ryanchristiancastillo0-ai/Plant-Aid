@@ -6,7 +6,7 @@ export default function MyPlantsStrip({ userPlants = [] }) {
   if (userPlants.length === 0) return null;
 
   return (
-    <section className="col-span-12 bg-white rounded-3xl border border-zinc-200 p-6 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-zinc-100">
+    <section className="col-span-12 bg-white dark:bg-zinc-900 rounded-3xl border border-zinc-200 dark:border-zinc-700 p-6 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-zinc-100 dark:hover:shadow-zinc-900/30">
       <div className="flex justify-between items-center mb-4">
         <h3 className="text-lg font-bold text-zinc-900">My Plants</h3>
         <button
@@ -21,7 +21,7 @@ export default function MyPlantsStrip({ userPlants = [] }) {
         {userPlants.slice(0, 8).map((plant) => (
           <button
             key={plant.id}
-            onClick={() => navigate(`/plants/${plant.id}`)}
+            onClick={() => navigate(`/plants/${plant.plantId}`)}
             className="flex-shrink-0 w-36 rounded-2xl border border-zinc-100 bg-zinc-50 hover:bg-emerald-50 hover:border-emerald-200 transition-all p-3 text-left group"
           >
             <div className="w-full h-24 rounded-xl overflow-hidden bg-emerald-100 flex items-center justify-center mb-3">

@@ -73,7 +73,7 @@ export default function TaskModal({ userPlants, onClose, onSave, saving }) {
       `}</style>
 
       <div
-        className="relative w-full max-w-lg bg-white rounded-3xl border border-[#c8c5ca]/40 overflow-hidden max-h-[92vh] overflow-y-auto"
+        className="relative w-full max-w-lg bg-white dark:bg-[#1a1a1a] rounded-3xl border border-[#c8c5ca]/40 dark:border-zinc-700/50 overflow-hidden max-h-[92vh] overflow-y-auto"
         style={{ animation: closing ? 'slideDown 0.2s cubic-bezier(0.16,1,0.3,1) forwards' : 'slideUp 0.3s cubic-bezier(0.16,1,0.3,1) forwards' }}
         onClick={(e) => e.stopPropagation()}
       >
@@ -83,7 +83,7 @@ export default function TaskModal({ userPlants, onClose, onSave, saving }) {
             <div className="w-8 h-8 rounded-xl bg-[#a6f2d1] flex items-center justify-center">
               <MdCalendarMonth className="text-[#1b6b51] text-base" />
             </div>
-            <h2 className="text-xl font-bold text-black tracking-tight" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
+            <h2 className="text-xl font-bold text-black dark:text-white tracking-tight" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
               Schedule Care Task
             </h2>
           </div>
@@ -183,7 +183,7 @@ export default function TaskModal({ userPlants, onClose, onSave, saving }) {
               </button>
 
               {plantOpen && (
-                <div className="absolute top-full left-0 right-0 mt-1 bg-white rounded-2xl shadow-xl border border-[#c8c5ca]/60 z-20 overflow-hidden max-h-44 overflow-y-auto">
+                <div className="absolute top-full left-0 right-0 mt-1 bg-white dark:bg-zinc-900 rounded-2xl shadow-xl border border-[#c8c5ca]/60 dark:border-zinc-700 z-20 overflow-hidden max-h-44 overflow-y-auto">
                   <div
                     onClick={() => { setUserPlantId(''); setPlantOpen(false); }}
                     className="px-4 py-3 text-sm text-[#47464a] hover:bg-zinc-50 cursor-pointer flex items-center gap-2"

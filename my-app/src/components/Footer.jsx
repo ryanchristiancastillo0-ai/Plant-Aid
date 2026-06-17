@@ -2,7 +2,7 @@ import { IoLeaf } from "react-icons/io5";
 
 export default function Footer() {
   return (
-    <footer className="bg-white w-full px-6 py-4 mt-auto border-t border-zinc-200/60
+    <footer className="bg-white dark:bg-[#1a1a1a] w-full px-6 py-4 mt-auto border-t border-zinc-200/60 dark:border-zinc-700/60
       flex flex-col sm:flex-row sm:items-center sm:justify-between items-center gap-3 sm:gap-2">
 
       <div className="flex items-center gap-1.5">

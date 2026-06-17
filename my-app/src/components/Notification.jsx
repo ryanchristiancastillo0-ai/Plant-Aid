@@ -72,7 +72,7 @@ export default function Notification({ onClose, reminders, loginHistory, loading
       {/* ── Panel ────────────────────────────────────────── */}
       <div
         className={`
-          z-50 bg-white border border-zinc-100 shadow-2xl overflow-hidden
+          z-50 bg-white dark:bg-[#1a1a1a] border border-zinc-100 dark:border-zinc-700 shadow-2xl overflow-hidden
           animate-in fade-in duration-200
 
           /* Mobile — fixed full width sheet from top */

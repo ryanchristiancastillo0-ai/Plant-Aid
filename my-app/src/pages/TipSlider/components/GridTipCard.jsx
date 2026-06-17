@@ -10,7 +10,7 @@ export default function GridTipCard({ tip, onDeepDive }) {
   const difficulty = DIFFICULTY_CONFIG[tip.difficulty] || DIFFICULTY_CONFIG.Beginner;
 
   return (
-    <div className="bg-white border border-[#c8c5ca]/30 rounded-3xl p-5 flex flex-col shadow-[0_4px_16px_-4px_rgba(0,0,0,0.05)] hover:border-[#1b6b51] hover:shadow-[0_8px_24px_-6px_rgba(27,107,81,0.10)] transition-all duration-300 group">
+    <div className="bg-white dark:bg-zinc-900 border border-[#c8c5ca]/30 dark:border-zinc-700/50 rounded-3xl p-5 flex flex-col shadow-[0_4px_16px_-4px_rgba(0,0,0,0.05)] dark:shadow-zinc-900/30 hover:border-[#1b6b51] hover:shadow-[0_8px_24px_-6px_rgba(27,107,81,0.10)] transition-all duration-300 group">
       <div className="flex items-start justify-between mb-4">
         <div className="w-10 h-10 bg-[#a6f2d1] rounded-xl flex items-center justify-center group-hover:bg-[#1b6b51] transition-colors duration-300">
           <Icon className="text-[#237157] text-lg group-hover:text-white transition-colors duration-300" />
@@ -24,7 +24,7 @@ export default function GridTipCard({ tip, onDeepDive }) {
           </span>
         </div>
       </div>
-      <h3 className="text-sm font-bold text-black tracking-tight leading-snug mb-2 line-clamp-2">{tip.title}</h3>
+      <h3 className="text-sm font-bold text-black dark:text-white tracking-tight leading-snug mb-2 line-clamp-2">{tip.title}</h3>
       <p className="text-xs text-[#47464a] leading-relaxed flex-1 mb-3 line-clamp-3">{tip.summary}</p>
       {tip.tags?.length > 0 && (
         <div className="flex flex-wrap gap-1 mb-3">

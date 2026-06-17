@@ -37,6 +37,9 @@ import { ProtectedRoute } from './pages/Auth/Service/AuthContext';
 import ResetConfirm from './pages/Auth/ResetConfirm/page/ResetConfirm';
 import Profile from './pages/Profile/page/Profile';
 
+import NotFound from './middleware/NotFound'
+
+
 export default function App() {
   return (
    <div className="w-full h-screen">
@@ -85,6 +88,8 @@ export default function App() {
         {/* Default Route */}
         <Route path="/" element={<Navigate to="/dashboard" replace />} />
        </Route>
+
+       <Route path="*" element={<NotFound />} />
 
       </Routes>
 

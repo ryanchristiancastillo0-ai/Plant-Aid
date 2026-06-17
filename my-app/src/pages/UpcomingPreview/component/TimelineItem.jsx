@@ -37,7 +37,7 @@ export default function TimelineItem({ item, onComplete, onDelete }) {
   return (
     <div className="relative pl-11 group cursor-pointer">
       {/* Timeline node */}
-      <div className="w-3 h-3 rounded-full bg-white border-2 border-[#1b6b51] absolute left-[11px] top-[18px] z-10 transition-transform duration-200 group-hover:scale-125" />
+      <div className="w-3 h-3 rounded-full bg-white dark:bg-zinc-800 border-2 border-[#1b6b51] absolute left-[11px] top-[18px] z-10 transition-transform duration-200 group-hover:scale-125" />
 
       {/* Content */}
       <div className="transition-transform duration-200 group-hover:translate-x-1 pr-16">
@@ -60,7 +60,7 @@ export default function TimelineItem({ item, onComplete, onDelete }) {
           )}
         </div>
         <h4
-          className="text-[16px] font-bold text-black group-hover:text-[#1b6b51] transition-colors leading-snug"
+          className="text-[16px] font-bold text-black dark:text-white group-hover:text-[#1b6b51] transition-colors leading-snug"
           style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", letterSpacing: '-0.02em' }}
         >
           {item.title}

@@ -56,8 +56,8 @@ export default function ResetConfirm({ oobCodeProp = null }) {
   // ── Success state ─────────────────────────────────────────
   if (success) {
     return (
-      <div className="bg-zinc-50/60 min-h-screen text-[#1a1b22] flex items-center justify-center p-4 antialiased">
-        <main className="w-full max-w-md bg-white rounded-3xl border border-zinc-200/50 shadow-sm p-8 md:p-10 relative overflow-hidden">
+      <div className="bg-zinc-50/60 dark:bg-[#0f0f0f] min-h-screen text-[#1a1b22] dark:text-gray-100 flex items-center justify-center p-4 antialiased">
+        <main className="w-full max-w-md bg-white dark:bg-[#1a1a1a] rounded-3xl border border-zinc-200/50 dark:border-zinc-700 shadow-sm p-8 md:p-10 relative overflow-hidden">
           <div className="mb-8 flex flex-col items-center gap-2">
             <span className="text-3xl font-extrabold tracking-tighter text-black">PlantAid</span>
             <div className="h-1 w-12 bg-[#1b6b51] rounded-full" />
@@ -66,7 +66,7 @@ export default function ResetConfirm({ oobCodeProp = null }) {
             <div className="w-16 h-16 rounded-full bg-[#a6f2d1] flex items-center justify-center">
               <span className="text-3xl">🌱</span>
             </div>
-            <h2 className="text-xl font-bold text-black tracking-tight">Password Updated!</h2>
+            <h2 className="text-xl font-bold text-black dark:text-white tracking-tight">Password Updated!</h2>
             <p className="text-sm text-[#47464a] leading-relaxed">
               Your password has been reset. Redirecting you to login…
             </p>
@@ -83,7 +83,7 @@ export default function ResetConfirm({ oobCodeProp = null }) {
   // ── Show success modal and redirect to login
   if (!oobCode || mode !== 'resetPassword') {
     return (
-      <div className="bg-zinc-50/60 min-h-screen text-[#1a1b22] flex items-center justify-center p-4 antialiased">
+      <div className="bg-zinc-50/60 dark:bg-[#0f0f0f] min-h-screen text-[#1a1b22] dark:text-gray-100 flex items-center justify-center p-4 antialiased">
         <main className="w-full max-w-md bg-white rounded-3xl border border-zinc-200/50 shadow-sm p-8 md:p-10 relative overflow-hidden">
           <div className="mb-8 flex flex-col items-center gap-2">
             <span className="text-3xl font-extrabold tracking-tighter text-black">PlantAid</span>

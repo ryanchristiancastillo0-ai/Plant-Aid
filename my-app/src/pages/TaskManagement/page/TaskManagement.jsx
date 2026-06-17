@@ -178,7 +178,7 @@ export default function PlantAidTaskManager() {
               <MdCalendarMonth className="text-base" />
               <span className="text-xs font-bold uppercase tracking-widest">Botanical Ward</span>
             </div>
-            <h1 className="text-3xl font-bold text-black tracking-tight" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", letterSpacing: '-0.04em' }}>
+            <h1 className="text-3xl font-bold text-black dark:text-white tracking-tight" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", letterSpacing: '-0.04em' }}>
               Your Care Tasks
             </h1>
             <p className="text-sm text-[#47464a] mt-1">Select a plant to manage treatment cycles and scheduled care.</p>
@@ -218,7 +218,7 @@ export default function PlantAidTaskManager() {
           {/* Task list */}
           <div className="flex flex-col gap-3">
             {filteredTasks.length === 0 ? (
-              <div className="flex flex-col items-center justify-center py-20 text-center gap-3 bg-white rounded-3xl border border-[#c8c5ca]/40">
+              <div className="flex flex-col items-center justify-center py-20 text-center gap-3 bg-white dark:bg-zinc-900 rounded-3xl border border-[#c8c5ca]/40 dark:border-zinc-700/50">
                 <div className="w-14 h-14 rounded-2xl bg-[#a6f2d1]/30 flex items-center justify-center">
                   <MdNotificationsActive className="text-2xl text-[#1b6b51]" />
                 </div>
@@ -262,7 +262,7 @@ export default function PlantAidTaskManager() {
      <footer className="bg-[#fbf8ff] border-t border-[#c8c5ca]/60 py-6 px-4 flex flex-col items-center gap-2 mt-auto pb-20 md:pb-6">
         <div className="flex items-center gap-1.5">
           <IoLeaf className="text-[#1b6b51]" />
-          <span className="text-base font-bold text-black" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>PlantAid</span>
+          <span className="text-base font-bold text-black dark:text-white" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>PlantAid</span>
         </div>
         <div className="flex gap-5">
           <a className="text-xs text-[#47464a] hover:text-[#1b6b51] transition-colors" href="#">Sign up</a>

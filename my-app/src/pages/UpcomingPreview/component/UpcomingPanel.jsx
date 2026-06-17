@@ -15,11 +15,11 @@ export default function UpcomingPanel({ items, overdueCount, onComplete, onDelet
   const hiddenCount   = items.length - COLLAPSED_LIMIT;
 
   return (
-    <div className="bg-white rounded-3xl border border-[#c8c5ca]/40 shadow-[0_8px_30px_rgba(0,0,0,0.02)] flex flex-col h-full">
+    <div className="bg-white dark:bg-zinc-900 rounded-3xl border border-[#c8c5ca]/40 dark:border-zinc-700/50 shadow-[0_8px_30px_rgba(0,0,0,0.02)] dark:shadow-zinc-900/30 flex flex-col h-full">
 
       {/* ── Panel header ───────────────────────────────── */}
       <div className="flex items-center justify-between px-6 pt-6 pb-3 flex-shrink-0">
-        <h2 className="text-lg font-bold text-black tracking-tight" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
+        <h2 className="text-lg font-bold text-black dark:text-white tracking-tight" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
           Next 48 Hours
         </h2>
         <div className="flex items-center gap-2">

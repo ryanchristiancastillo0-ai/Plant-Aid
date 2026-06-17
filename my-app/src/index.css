@@ -1,5 +1,6 @@
 /* 1. Core Tailwind v4 setup */
 @import "tailwindcss";
+@variant dark (:where(.dark) &);
 
 /* 2. Self-hosted Google Fonts via npm */
 @import "@fontsource/plus-jakarta-sans";
@@ -7,7 +8,7 @@
 
 /* 3. Global styles and custom bento transition rules */
 body { 
-  font-family: 'Manrope', sans-serif; 
+  font-family: 'Plus Jakarta Sans', 'Manrope', sans-serif; 
   -webkit-font-smoothing: antialiased; 
 }
 

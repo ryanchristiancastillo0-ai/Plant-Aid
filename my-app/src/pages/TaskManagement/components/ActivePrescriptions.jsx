@@ -32,12 +32,12 @@ export default function ActivePrescriptions({ tasks, userPlants }) {
             return (
               <div
                 key={t.id}
-                className="bg-white rounded-xl px-4 py-3 flex items-center justify-between text-sm shadow-sm border border-[#a6f2d1]/40"
+                className="bg-white dark:bg-zinc-900 rounded-xl px-4 py-3 flex items-center justify-between text-sm shadow-sm border border-[#a6f2d1]/40 dark:border-zinc-700/50"
               >
                 <div className="flex items-center gap-2 min-w-0">
                   <CatIcon className="text-[#1b6b51] text-base flex-shrink-0" />
                   <div className="min-w-0">
-                    <p className="font-semibold text-black truncate text-xs leading-tight">{t.title}</p>
+                    <p className="font-semibold text-black dark:text-white truncate text-xs leading-tight">{t.title}</p>
                     {plant && <p className="text-[10px] text-[#47464a] truncate">{plant.nickname}</p>}
                   </div>
                 </div>

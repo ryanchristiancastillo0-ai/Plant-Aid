@@ -24,7 +24,7 @@ export default function ScanSuccessModal({ isOpen, onClose, onSave, plantData })
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4 antialiased font-sans">
       <div className="absolute inset-0" onClick={onClose} />
       {/* Added max-h-[95vh] and overflow-y-auto for short screen scrolling */}
-      <div className="relative w-full max-w-xl max-h-[95vh] overflow-y-auto bg-white rounded-3xl p-6 md:p-8 border border-[#c8c5ca] shadow-[0_10px_30px_-10px_rgba(0,0,0,0.05)] z-10 animate-in fade-in zoom-in-95 duration-200">
+      <div className="relative w-full max-w-xl max-h-[95vh] overflow-y-auto bg-white dark:bg-[#1a1a1a] rounded-3xl p-6 md:p-8 border border-[#c8c5ca] dark:border-zinc-700 shadow-[0_10px_30px_-10px_rgba(0,0,0,0.05)] dark:shadow-zinc-900/20 z-10 animate-in fade-in zoom-in-95 duration-200">
         
         {/* Added z-20 to ensure it stays above stacked content */}
         <button onClick={onClose} className="absolute top-4 right-4 z-20 text-gray-400 hover:text-black font-bold text-xl px-2">
@@ -41,7 +41,7 @@ export default function ScanSuccessModal({ isOpen, onClose, onSave, plantData })
           </div>
           {/* Alignment wrapper for text */}
           <div className="flex flex-col justify-center items-center sm:items-start">
-            <h2 className="text-2xl font-bold text-black">{plantInfo.name}</h2>
+            <h2 className="text-2xl font-bold text-black dark:text-white">{plantInfo.name}</h2>
             <p className="text-lg text-[#1b6b51] font-medium italic">{plantInfo.scientificName}</p>
           </div>
         </section>

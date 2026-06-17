@@ -140,7 +140,7 @@ function CameraSheet({ onClose }) {
             <div className="w-7 h-7 rounded-lg bg-[#a6f2d1] flex items-center justify-center">
               <MdPhotoCamera className="text-[#1b6b51] text-base" />
             </div>
-            <span className="text-base font-bold text-black" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
+            <span className="text-base font-bold text-black dark:text-white" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
               Quick Scan
             </span>
           </div>
@@ -210,14 +210,14 @@ function UploadPrompt({ onFile, fileRef }) {
       className={`w-full h-48 rounded-2xl border-2 border-dashed flex flex-col items-center justify-center gap-3 cursor-pointer transition-all ${
         isDragging
           ? 'border-[#1b6b51] bg-[#a6f2d1]/20'
-          : 'border-[#c8c5ca] bg-white hover:border-[#1b6b51]/60'
+          : 'border-[#c8c5ca] bg-white dark:bg-zinc-900 hover:border-[#1b6b51]/60'
       }`}
     >
       <div className="w-14 h-14 rounded-2xl bg-[#a6f2d1]/30 flex items-center justify-center">
         <MdPhotoCamera className="text-3xl text-[#1b6b51]" />
       </div>
       <div className="text-center">
-        <p className="text-sm font-bold text-black">Take or upload a photo</p>
+            <p className="text-sm font-bold text-black dark:text-white">Take or upload a photo</p>
         <p className="text-xs text-[#47464a] mt-0.5">Tap to open camera or gallery</p>
       </div>
     </div>
@@ -289,7 +289,7 @@ function NotPlantState({ score, onRetry }) {
 function QuickResult({ preview, topMatch, confidence, healthCfg, result, onRetry, onViewDetails }) {
   return (
     <div className="flex flex-col gap-3">
-      <div className="bg-white rounded-2xl border border-[#c8c5ca]/40 p-4 flex items-center gap-4">
+      <div className="bg-white dark:bg-zinc-900 rounded-2xl border border-[#c8c5ca]/40 dark:border-zinc-700/50 p-4 flex items-center gap-4">
         <div className="w-16 h-16 rounded-xl overflow-hidden bg-zinc-100 flex-shrink-0">
           <img
             src={topMatch?.imageUrl || preview}
@@ -300,7 +300,7 @@ function QuickResult({ preview, topMatch, confidence, healthCfg, result, onRetry
         <div className="flex-1 min-w-0">
           <p className="text-xs text-[#47464a] font-medium uppercase tracking-widest mb-0.5">Top Match</p>
           <h3
-            className="text-base font-extrabold text-black leading-tight truncate"
+            className="text-base font-extrabold text-black dark:text-white leading-tight truncate"
             style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}
           >
             {topMatch?.commonNames?.[0] || topMatch?.name || 'Unknown Plant'}
@@ -334,7 +334,7 @@ function QuickResult({ preview, topMatch, confidence, healthCfg, result, onRetry
       </div>
 
       {result.suggestions.length > 1 && (
-        <div className="bg-white rounded-2xl border border-[#c8c5ca]/40 px-4 py-3">
+        <div className="bg-white dark:bg-zinc-900 rounded-2xl border border-[#c8c5ca]/40 dark:border-zinc-700/50 px-4 py-3">
           <p className="text-[10px] font-bold text-[#47464a] uppercase tracking-widest mb-2">
             Other possibilities
           </p>
@@ -384,13 +384,13 @@ function NotificationsPopup({ onClose }) {
   return (
     <>
       <div className="fixed inset-0 z-40" onClick={onClose} />
-      <div className="fixed bottom-20 left-4 right-4 z-50 bg-white rounded-2xl border border-[#c8c5ca]/40 shadow-xl overflow-hidden">
+      <div className="fixed bottom-20 left-4 right-4 z-50 bg-white dark:bg-zinc-900 rounded-2xl border border-[#c8c5ca]/40 dark:border-zinc-700/50 shadow-xl overflow-hidden">
         <div className="flex items-center justify-between px-4 py-3 border-b border-[#c8c5ca]/30">
           <div className="flex items-center gap-2">
             <div className="w-6 h-6 rounded-lg bg-[#a6f2d1] flex items-center justify-center">
               <MdNotificationsNone className="text-[#1b6b51] text-sm" />
             </div>
-            <span className="text-sm font-bold text-black" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
+            <span className="text-sm font-bold text-black dark:text-white" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
               Notifications
             </span>
           </div>
@@ -405,7 +405,7 @@ function NotificationsPopup({ onClose }) {
           <div className="w-12 h-12 rounded-2xl bg-[#a6f2d1]/30 flex items-center justify-center">
             <MdNotificationsNone className="text-2xl text-[#1b6b51]" />
           </div>
-          <p className="text-sm font-bold text-black" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
+          <p className="text-sm font-bold text-black dark:text-white" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
             No notifications yet
           </p>
           <p className="text-xs text-[#47464a] max-w-[220px] leading-relaxed">
@@ -512,7 +512,7 @@ export default function MobileNav() {
   return (
     <>
       {/* ── Bottom Nav Bar ───────────────────────────────── */}
-      <div className="md:hidden fixed bottom-0 left-0 right-0 bg-white/95 backdrop-blur-md border-t border-zinc-200/80 z-40 pb-safe">
+      <div className="md:hidden fixed bottom-0 left-0 right-0 bg-white/95 dark:bg-zinc-900/95 backdrop-blur-md border-t border-zinc-200/80 dark:border-zinc-700 z-40 pb-safe">
         <nav className="flex items-end justify-between h-16 w-full max-w-md mx-auto px-2">
 
           {/* Left two items */}

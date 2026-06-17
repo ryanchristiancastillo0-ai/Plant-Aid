@@ -50,7 +50,7 @@ export default function AddSpecimenModal({ userId, onClose, onAdded }) {
 
   return (
     <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/60 backdrop-blur-md animate-in fade-in" onClick={onClose}>
-      <div className="w-full max-w-md bg-white rounded-3xl shadow-2xl p-6 space-y-5" style={{ animation: 'fadeUp 0.25s cubic-bezier(0.16,1,0.3,1)' }} onClick={(e) => e.stopPropagation()}>
+      <div className="w-full max-w-md bg-white dark:bg-[#1a1a1a] rounded-3xl shadow-2xl p-6 space-y-5" style={{ animation: 'fadeUp 0.25s cubic-bezier(0.16,1,0.3,1)' }} onClick={(e) => e.stopPropagation()}>
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
             <div className="w-9 h-9 rounded-xl bg-[#a6f2d1] flex items-center justify-center">

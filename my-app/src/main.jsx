@@ -5,6 +5,7 @@ import './index.css'
 import App from './App.jsx'
 import { AuthProvider } from './pages/Auth/Service/AuthContext.jsx';
 import { registerSW } from 'virtual:pwa-register';
+import { ThemeProvider } from './context/ThemeContext.jsx';
 
 registerSW({
   immediate: true,
@@ -14,7 +15,7 @@ createRoot(document.getElementById('root')).render(
 <AuthProvider>
    <Router>
    <StrictMode>
-    <App />
+      <App />
   </StrictMode>
  </Router>
 </AuthProvider>

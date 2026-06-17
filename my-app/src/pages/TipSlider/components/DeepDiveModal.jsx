@@ -29,7 +29,7 @@ export default function DeepDiveModal({ tip, onClose }) {
       className="fixed inset-0 z-50 flex items-end sm:items-center justify-center p-0 sm:p-4 bg-black/50 backdrop-blur-sm animate-in fade-in duration-200"
       onClick={handleBackdrop}
     >
-      <div className="relative w-full sm:max-w-2xl bg-white sm:rounded-3xl rounded-t-3xl shadow-2xl flex flex-col max-h-[92vh] animate-in slide-in-from-bottom-4 duration-300">
+      <div className="relative w-full sm:max-w-2xl bg-white dark:bg-[#1a1a1a] sm:rounded-3xl rounded-t-3xl shadow-2xl flex flex-col max-h-[92vh] animate-in slide-in-from-bottom-4 duration-300">
 
         {/* Drag handle — mobile only */}
         <div className="flex justify-center pt-3 pb-1 sm:hidden">
@@ -51,14 +51,14 @@ export default function DeepDiveModal({ tip, onClose }) {
                   {tip.difficulty}
                 </span>
               </div>
-              <h2 className="text-base font-bold text-black tracking-tight leading-snug line-clamp-2">
+              <h2 className="text-base font-bold text-black dark:text-white tracking-tight leading-snug line-clamp-2">
                 {tip.title}
               </h2>
             </div>
           </div>
           <button
             onClick={onClose}
-            className="ml-3 flex-shrink-0 w-8 h-8 rounded-full bg-zinc-100 hover:bg-zinc-200 flex items-center justify-center transition-colors"
+            className="ml-3 flex-shrink-0 w-8 h-8 rounded-full bg-zinc-100 dark:bg-zinc-700 hover:bg-zinc-200 dark:hover:bg-zinc-600 flex items-center justify-center transition-colors"
           >
             <MdClose className="text-lg text-zinc-600" />
           </button>
@@ -84,7 +84,7 @@ export default function DeepDiveModal({ tip, onClose }) {
           {/* Full content */}
           {tip.content && (
             <div>
-              <h3 className="text-xs font-bold text-black/40 uppercase tracking-widest mb-3">Full Guide</h3>
+              <h3 className="text-xs font-bold text-black/40 dark:text-gray-400 uppercase tracking-widest mb-3">Full Guide</h3>
               <p className="text-sm text-[#47464a] leading-relaxed whitespace-pre-line">{tip.content}</p>
             </div>
           )}
@@ -92,7 +92,7 @@ export default function DeepDiveModal({ tip, onClose }) {
           {/* Tags */}
           {tip.tags?.length > 0 && (
             <div>
-              <h3 className="text-xs font-bold text-black/40 uppercase tracking-widest mb-2">Tags</h3>
+              <h3 className="text-xs font-bold text-black/40 dark:text-gray-400 uppercase tracking-widest mb-2">Tags</h3>
               <div className="flex flex-wrap gap-1.5">
                 {tip.tags.map((tag) => (
                   <span key={tag} className="text-xs bg-[#f0faf5] text-[#1b6b51] px-2.5 py-1 rounded-full border border-[#a6f2d1]/40 font-medium">
@@ -106,7 +106,7 @@ export default function DeepDiveModal({ tip, onClose }) {
           {/* Related plants */}
           {tip.relatedPlants?.length > 0 && (
             <div>
-              <h3 className="text-xs font-bold text-black/40 uppercase tracking-widest mb-2">Related Plants</h3>
+              <h3 className="text-xs font-bold text-black/40 dark:text-gray-400 uppercase tracking-widest mb-2">Related Plants</h3>
               <div className="flex flex-wrap gap-1.5">
                 {tip.relatedPlants.map((plant) => (
                   <span key={plant} className="text-xs bg-zinc-50 text-zinc-600 px-2.5 py-1 rounded-full border border-zinc-200 font-medium flex items-center gap-1">

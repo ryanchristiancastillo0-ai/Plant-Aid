@@ -20,7 +20,7 @@ export default function CalendarCard({ todayReminders = [] }) {
   });
 
   return (
-    <section className="col-span-12 md:col-span-4 bg-white rounded-3xl border border-zinc-200 p-6 flex flex-col transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-zinc-100">
+    <section className="col-span-12 md:col-span-4 bg-white dark:bg-zinc-900 rounded-3xl border border-zinc-200 dark:border-zinc-700 p-6 flex flex-col transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-zinc-100 dark:hover:shadow-zinc-900/30">
       <div className="flex justify-between items-center mb-4">
         <h3 className="text-lg font-bold text-zinc-900">This Week</h3>
         <span className="text-zinc-400 text-sm">

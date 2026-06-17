@@ -5,7 +5,7 @@ import { formatTime, getReminderMeta, isReminderDone } from '../utils/gardenUtil
 
 export default function CareScheduleList({ reminders, onToggle, navigate }) {
   return (
-    <div className="bg-white rounded-2xl border border-[#c8c5ca]/40 p-4">
+    <div className="bg-white dark:bg-zinc-900 rounded-2xl border border-[#c8c5ca]/40 dark:border-zinc-700/50 p-4">
       <div className="flex items-center justify-between mb-3">
         <h4 className="text-sm font-bold text-[#1a1b22]">Care Schedule</h4>
         <button onClick={() => navigate('/reminders')} className="p-1 rounded-lg hover:bg-zinc-100 transition-colors text-[#1b6b51]">

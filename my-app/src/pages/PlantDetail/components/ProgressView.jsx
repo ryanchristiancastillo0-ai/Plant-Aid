@@ -1,5 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+
 import {
   MdEditNote,
   MdAutoAwesome,
@@ -21,7 +20,7 @@ import {
   daysSincePlanted,
 } from '../services/PlantDetailService';
 
-
+import {PlantPlaceholder} from './index'
 
 
 export default function ProgressView({ masterPlant, userPlant, journals }) {
@@ -203,11 +202,13 @@ export default function ProgressView({ masterPlant, userPlant, journals }) {
           <IoLeaf className="absolute -bottom-3 -right-3 text-[70px] text-white/5 pointer-events-none" />
         </div>
 
-        {userPlant?.imageUrl ? (
+        {userPlant?.imageUrl || userPlant?.imageUrl !== undefined ? (
+          
           <div className="relative group rounded-2xl overflow-hidden border border-zinc-200" style={{ height: '130px' }}>
+           
             <img
               className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-              src={userPlant.imageUrl}
+              src={userPlant.imageUrl }
               alt={userPlant.nickname || 'Plant photo'}
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent p-3 flex items-end">
@@ -215,6 +216,7 @@ export default function ProgressView({ masterPlant, userPlant, journals }) {
                 Planted {formatDate(userPlant.plantedDate)}
               </span>
             </div>
+            
           </div>
         ) : (
           <div className="rounded-2xl border border-dashed border-zinc-200 bg-zinc-50 flex flex-col items-center justify-center gap-2 text-center p-4" style={{ height: '130px' }}>

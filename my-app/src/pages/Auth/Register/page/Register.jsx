@@ -18,7 +18,7 @@ function SuccessModal({ onRedirect }) {
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40 backdrop-blur-sm">
       <div
-        className="w-full max-w-sm bg-white rounded-3xl shadow-2xl p-8 flex flex-col items-center text-center"
+        className="w-full max-w-sm bg-white dark:bg-[#1a1a1a] rounded-3xl shadow-2xl p-8 flex flex-col items-center text-center"
         style={{ animation: 'fadeUp 0.3s ease-out' }}
       >
         {/* Icon */}
@@ -28,7 +28,7 @@ function SuccessModal({ onRedirect }) {
 
         {/* Text */}
         <h2
-          className="text-2xl font-bold text-black tracking-tight mb-2"
+          className="text-2xl font-bold text-black dark:text-white tracking-tight mb-2"
           style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}
         >
           Account Created!
@@ -185,7 +185,7 @@ export default function Register() {
 
       {/* Nav */}
       <nav className="w-full px-6 py-6 flex items-center justify-between max-w-7xl mx-auto absolute top-0 left-0 right-0 z-10">
-        <div className="text-2xl font-bold text-black flex items-center gap-2 tracking-tight">
+        <div className="text-2xl font-bold text-black dark:text-white flex items-center gap-2 tracking-tight">
           <MdEco className="text-[#1b6b51] w-8 h-8" />
           <span>PlantAid</span>
         </div>
@@ -193,10 +193,10 @@ export default function Register() {
 
       {/* Card */}
       <main className="flex-grow flex items-center justify-center px-4 py-20 mt-10">
-        <div className="w-full max-w-md bg-white rounded-3xl border border-[#c8c5ca]/50 shadow-[0_8px_30px_rgb(0,0,0,0.02)] p-8 md:p-10 transition-all duration-300">
+        <div className="w-full max-w-md bg-white dark:bg-[#1a1a1a] rounded-3xl border border-[#c8c5ca]/50 dark:border-zinc-700 shadow-[0_8px_30px_rgb(0,0,0,0.02)] dark:shadow-zinc-900/20 p-8 md:p-10 transition-all duration-300">
 
           <header className="mb-8">
-            <h1 className="text-3xl font-bold text-black tracking-tighter mb-2">Create Account</h1>
+            <h1 className="text-3xl font-bold text-black dark:text-white tracking-tighter mb-2">Create Account</h1>
             <p className="text-sm text-[#47464a]">Join the botanical laboratory and start your journey.</p>
           </header>
 
@@ -343,7 +343,7 @@ export default function Register() {
       </main>
 
       {/* Site Footer */}
-      <footer className="w-full py-6 flex flex-col items-center gap-2 px-6 border-t border-[#c8c5ca]/30 mt-auto bg-white/50 backdrop-blur-sm">
+      <footer className="w-full py-6 flex flex-col items-center gap-2 px-6 border-t border-[#c8c5ca]/30 dark:border-zinc-700 mt-auto bg-white/50 dark:bg-zinc-900/30 backdrop-blur-sm">
         <p className="text-sm text-[#1b6b51]">© 2024 PlantAid. Botanical Precision.</p>
         <div className="flex gap-6">
           <a className="text-[#47464a] text-sm hover:text-[#00513b] transition-colors" href="#privacy">Privacy Policy</a>

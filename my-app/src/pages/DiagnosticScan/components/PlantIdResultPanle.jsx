@@ -26,7 +26,7 @@ export default function PlantIdResultPanel({ result, preview, onRetry, analysis,
   return (
     <div className="w-full max-w-3xl mx-auto space-y-5">
 
-      <div className="bg-white rounded-3xl border border-[#c8c5ca]/40 p-6 shadow-[0_8px_30px_rgba(0,0,0,0.03)]">
+      <div className="bg-white dark:bg-zinc-900 rounded-3xl border border-[#c8c5ca]/40 dark:border-zinc-700/50 p-6 shadow-[0_8px_30px_rgba(0,0,0,0.03)] dark:shadow-zinc-900/20">
         <div className="flex flex-col sm:flex-row items-start gap-5">
           {preview && (
             <div className="w-full sm:w-32 h-32 rounded-2xl overflow-hidden bg-zinc-100 flex-shrink-0">
@@ -37,7 +37,7 @@ export default function PlantIdResultPanel({ result, preview, onRetry, analysis,
             <div className="flex items-start justify-between gap-3 flex-wrap">
               <div>
                 <p className="text-xs font-bold text-[#47464a] uppercase tracking-widest mb-1">Top Match</p>
-                <h2 className="text-2xl font-extrabold text-black tracking-tight leading-tight" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
+                <h2 className="text-2xl font-extrabold text-black dark:text-white tracking-tight leading-tight" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
                   {topMatch?.commonNames?.[0] || topMatch?.name || 'Unknown Plant'}
                 </h2>
                 {topMatch?.name && <p className="text-sm italic text-[#47464a] mt-0.5">{topMatch.name}</p>}
@@ -86,8 +86,8 @@ export default function PlantIdResultPanel({ result, preview, onRetry, analysis,
 
       {/* Identification tab */}
       {activeTab === 'identification' && (
-        <div className="bg-white rounded-3xl border border-[#c8c5ca]/40 p-6 space-y-5 shadow-[0_8px_30px_rgba(0,0,0,0.03)]">
-          <h3 className="text-base font-bold text-black" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>All Suggestions</h3>
+        <div className="bg-white dark:bg-zinc-900 rounded-3xl border border-[#c8c5ca]/40 dark:border-zinc-700/50 p-6 space-y-5 shadow-[0_8px_30px_rgba(0,0,0,0.03)] dark:shadow-zinc-900/20\">
+          <h3 className="text-base font-bold text-black dark:text-white" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>All Suggestions</h3>
           {result.suggestions.length === 0
             ? <p className="text-sm text-[#47464a]">No species suggestions returned.</p>
             : (

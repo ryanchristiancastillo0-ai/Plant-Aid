@@ -109,7 +109,7 @@ useEffect(() => {
   return (
     <>
       <div className="fixed top-0 left-0 right-0 z-40">
-        <header className="bg-white border-b border-[#c8c5ca]/30 w-full h-[60px] flex items-center px-6">
+        <header className="bg-white dark:bg-[#1a1a1a] border-b border-[#c8c5ca]/30 dark:border-zinc-700/50 w-full h-[60px] flex items-center px-6">
           <div className="flex items-center justify-between w-full max-w-7xl mx-auto">
 
             {/* Logo */}
@@ -118,7 +118,7 @@ useEffect(() => {
                 <TbPlant2 className="text-[#a6f2d1] text-base" />
               </div>
               <span
-                className="text-[17px] font-bold text-black tracking-[-0.03em]"
+                className="text-[17px] font-bold text-black dark:text-white tracking-[-0.03em]"
                 style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}
               >
                 PlantAid
@@ -135,7 +135,7 @@ useEffect(() => {
                     href={item.path}
                     className={`text-sm px-3 py-1.5 rounded-lg transition-colors ${
                       isActive
-                        ? 'font-bold text-black bg-[#f0eff9]'
+                        ? 'font-bold text-black dark:text-white bg-[#f0eff9] dark:bg-zinc-800'
                         : 'text-[#47464a] hover:bg-[#f0eff9]'
                     }`}
                   >

@@ -82,7 +82,7 @@ export default function Login() {
 
       {/* Login Card */}
       <main
-        className={`w-full max-w-md bg-white rounded-3xl border border-zinc-200/60 shadow-[0_8px_30px_rgba(0,0,0,0.04)] p-8 md:p-10 relative z-10 transition-all duration-700 ease-out ${
+        className={`w-full max-w-md bg-white dark:bg-[#1a1a1a] rounded-3xl border border-zinc-200/60 dark:border-zinc-700 shadow-[0_8px_30px_rgba(0,0,0,0.04)] dark:shadow-zinc-900/20 p-8 md:p-10 relative z-10 transition-all duration-700 ease-out ${
           animateIn ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'
         }`}
       >

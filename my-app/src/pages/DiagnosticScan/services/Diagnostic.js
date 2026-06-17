@@ -9,6 +9,9 @@
 import {
   collection,
   addDoc,
+  doc,
+  getDoc,
+  setDoc,
   query,
   where,
   orderBy,
@@ -21,7 +24,9 @@ import {
 import { db } from '../../../firebase/firebase';
 
 const PLANT_ID_API_KEY = import.meta.env.VITE_PLANT_ID_API_KEY;
-const PLANT_ID_URL     = 'https://api.plant.id/v3/identification';
+const PLANT_ID_URL     = 'https://api.plant.id/v3/identification?details=common_names&language=en';
+
+
 
 
 // ─────────────────────────────────────────────────────────────
@@ -88,17 +93,29 @@ export function fileToBase64(file) {
 
 
 
-async function convertToJpeg(file, quality = 0.9) {
+async function convertToJpeg(file, quality = 0.8, maxDimension = 1024) {
   return new Promise((resolve, reject) => {
     const img = new Image();
 
     img.onload = () => {
+      let { width, height } = img;
+
+      if (width > maxDimension || height > maxDimension) {
+        if (width > height) {
+          height = Math.round((height * maxDimension) / width);
+          width = maxDimension;
+        } else {
+          width = Math.round((width * maxDimension) / height);
+          height = maxDimension;
+        }
+      }
+
       const canvas = document.createElement('canvas');
-      canvas.width = img.width;
-      canvas.height = img.height;
+      canvas.width = width;
+      canvas.height = height;
 
       const ctx = canvas.getContext('2d');
-      ctx.drawImage(img, 0, 0);
+      ctx.drawImage(img, 0, 0, width, height);
 
       canvas.toBlob(
         (blob) => {
@@ -106,13 +123,11 @@ async function convertToJpeg(file, quality = 0.9) {
             reject(new Error('Failed to convert image'));
             return;
           }
-
           const jpegFile = new File(
             [blob],
             file.name.replace(/\.[^/.]+$/, '.jpg'),
             { type: 'image/jpeg' }
           );
-
           resolve(jpegFile);
         },
         'image/jpeg',
@@ -126,10 +141,8 @@ async function convertToJpeg(file, quality = 0.9) {
 }
 
 async function fileToPlantIdBase64(file) {
-  const jpegFile =
-    file.type === 'image/avif'
-      ? await convertToJpeg(file)
-      : file;
+
+   const jpegFile = await convertToJpeg(file, 0.8)
 
       console.log('ORIGINAL TYPE:', file.type);
 console.log('UPLOAD TYPE:', jpegFile.type);
@@ -165,17 +178,17 @@ function normalizePlantIdResponse(raw) {
     isHealthyScore: result?.is_healthy?.probability ?? 0,
 
     suggestions:
-      result?.classification?.suggestions?.map((item) => ({
-        name: item?.name ?? 'Unknown',
-        commonNames: item?.details?.common_names ?? [],
-        probability: item?.probability ?? 0,
-        wikiUrl: item?.details?.url ?? '',
-        imageUrl: item?.similar_images?.[0]?.url ?? '',
-        description:
-          item?.details?.description ??
-          item?.details?.wiki_description?.value ??
-          '',
-      })) ?? [],
+  result?.classification?.suggestions?.map((item) => ({
+    name: item?.name ?? 'Unknown',
+    commonNames: item?.details?.common_names ?? [],
+    probability: item?.probability ?? 0,
+    wikiUrl: item?.details?.url ?? '',
+    imageUrl: item?.similar_images?.[0]?.url ?? '',
+    description:
+      item?.details?.description ??
+      item?.details?.wiki_description?.value ??
+      '',
+  })) ?? [],
 
     diseases:
       result?.disease?.suggestions?.map((item) => ({
@@ -229,14 +242,17 @@ console.log('REQUEST BODY:', body);
   if (latitude !== undefined) body.latitude = latitude;
   if (longitude !== undefined) body.longitude = longitude;
  
-  const response = await fetch(PLANT_ID_URL, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'Api-Key': PLANT_ID_API_KEY,
-    },
-    body: JSON.stringify(body),
-  });
+
+
+const response = await fetch(PLANT_ID_URL, {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json',
+    'Api-Key': PLANT_ID_API_KEY,
+  },
+  body: JSON.stringify(body),
+});
+
 
   const text = await response.text();
 
@@ -249,8 +265,7 @@ const raw = JSON.parse(text);
 
 const normalized = normalizePlantIdResponse(raw);
 
-console.log('NORMALIZED:', normalized);
-console.log('SENDING BODY:', JSON.stringify(body, null, 2));
+
 return normalized;
 }
 // ─────────────────────────────────────────────────────────────

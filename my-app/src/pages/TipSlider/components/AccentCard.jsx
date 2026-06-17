@@ -13,7 +13,7 @@ export default function AccentCard() {
         <div className="relative z-10 p-6">
           <h3 className="text-xl font-bold text-white tracking-tight mb-1">Join our Green Community</h3>
           <p className="text-sm text-white/80 mb-4">Access 500+ species-specific guides.</p>
-          <button className="bg-white text-black w-full py-3 rounded-xl font-bold text-sm hover:bg-[#a6f2d1] transition-colors duration-200">
+          <button className="bg-white dark:bg-zinc-900 text-black dark:text-white w-full py-3 rounded-xl font-bold text-sm hover:bg-[#a6f2d1] dark:hover:bg-[#a6f2d1]/20 transition-colors duration-200">
             Join Now
           </button>
         </div>

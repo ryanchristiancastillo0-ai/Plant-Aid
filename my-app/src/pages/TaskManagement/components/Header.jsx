@@ -39,7 +39,7 @@ export default function TasksHeader({ setModalOpen }) {
         >
           <IoLeaf className="text-[#1b6b51] text-2xl" />
           <span
-            className="text-2xl font-bold text-black tracking-tight"
+            className="text-2xl font-bold text-black dark:text-white tracking-tight"
             style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}
           >
             PlantAid
@@ -56,7 +56,7 @@ export default function TasksHeader({ setModalOpen }) {
                 onClick={() => handleNavigate(path)}
                 className={`text-sm transition-colors whitespace-nowrap ${
                   isActive
-                    ? 'text-black font-bold border-b-2 border-[#1b6b51] pb-0.5'
+                    ? 'text-black dark:text-white font-bold border-b-2 border-[#1b6b51] pb-0.5'
                     : 'text-[#47464a] font-medium hover:text-black'
                 }`}
               >

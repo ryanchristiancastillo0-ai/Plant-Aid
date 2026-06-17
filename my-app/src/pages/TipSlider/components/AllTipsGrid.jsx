@@ -48,12 +48,12 @@ export default function AllTipsGrid({ onDeepDive }) {
 
       {/* Section Header */}
       <div className="mb-6">
-        <span className="text-xs font-semibold text-black/50 tracking-widest uppercase">
+        <span className="text-xs font-semibold text-black/50 dark:text-gray-400 tracking-widest uppercase">
           Browse All
         </span>
         <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mt-1">
           <div>
-            <h2 className="text-3xl md:text-4xl font-bold text-black tracking-tight">All Tips</h2>
+            <h2 className="text-3xl md:text-4xl font-bold text-black dark:text-white tracking-tight">All Tips</h2>
             {!gridLoading && (
               <p className="text-base text-[#47464a] mt-1">
                 {allTips.length} tips across {GRID_CATEGORIES.length - 1} categories.
@@ -69,7 +69,7 @@ export default function AllTipsGrid({ onDeepDive }) {
               placeholder="Search tips, tags, plants…"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full pl-10 pr-9 py-2.5 rounded-xl border border-[#c8c5ca]/60 bg-white text-sm text-black placeholder:text-[#47464a]/40 focus:outline-none focus:border-[#1b6b51] transition-colors"
+              className="w-full pl-10 pr-9 py-2.5 rounded-xl border border-[#c8c5ca]/60 dark:border-zinc-700 bg-white dark:bg-zinc-900 text-sm text-black dark:text-white placeholder:text-[#47464a]/40 dark:placeholder:text-gray-500 focus:outline-none focus:border-[#1b6b51] transition-colors"
             />
             {searchQuery && (
               <button
@@ -124,7 +124,7 @@ export default function AllTipsGrid({ onDeepDive }) {
                   <IoLeaf className="text-3xl text-[#1b6b51]" />
                 </div>
                 <div>
-                  <p className="text-base font-bold text-black">No tips found</p>
+                  <p className="text-base font-bold text-black dark:text-white">No tips found</p>
                   <p className="text-sm text-[#47464a] mt-1">
                     {searchQuery
                       ? `No results for "${searchQuery}". Try a different search.`

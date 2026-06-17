@@ -88,7 +88,7 @@ export default function PlantTipsSlider() {
   }
 
   return (
-    <div className="bg-[#fbf8ff] text-[#1a1b22] min-h-screen flex flex-col font-sans pb-20 lg:pb-0">
+    <div className="bg-[#fbf8ff] dark:bg-[#0f0f0f] text-[#1a1b22] dark:text-gray-100 min-h-screen flex flex-col font-sans pb-20 lg:pb-0">
 
       <Topbar />
 
@@ -102,12 +102,12 @@ export default function PlantTipsSlider() {
         {/* ── CAROUSEL SECTION ─────────────────────────────── */}
         <section>
           <div className="mb-6">
-            <span className="text-xs font-semibold text-black/50 tracking-widest uppercase">
+            <span className="text-xs font-semibold text-black/50 dark:text-gray-400 tracking-widest uppercase">
               Curated Learning
             </span>
             <div className="flex items-end justify-between flex-wrap gap-4 mt-1">
               <div>
-                <h2 className="text-3xl md:text-4xl font-bold text-black tracking-tight max-w-lg">
+                <h2 className="text-3xl md:text-4xl font-bold text-black dark:text-white tracking-tight max-w-lg">
                   Daily Gardening Insights
                 </h2>
                 <p className="text-base text-[#47464a] max-w-xl mt-2 leading-relaxed">
@@ -164,7 +164,7 @@ export default function PlantTipsSlider() {
               <div className="w-16 h-16 bg-[#a6f2d1]/30 rounded-2xl flex items-center justify-center">
                 <IoLeaf className="text-3xl text-[#1b6b51]" />
               </div>
-              <p className="text-base font-bold text-black">No tips yet</p>
+              <p className="text-base font-bold text-black dark:text-white">No tips yet</p>
               <p className="text-sm text-[#47464a]">
                 {activeCategory === 'All' ? 'Tips are on the way. Check back soon!' : `No tips found for "${activeCategory}" yet.`}
               </p>
@@ -181,7 +181,7 @@ export default function PlantTipsSlider() {
                 {loading
                   ? Array.from({ length: 3 }).map((_, i) => (
                       <div key={i} className="min-w-[260px] md:min-w-[360px] snap-start flex-shrink-0">
-                        <div className="bg-white border border-[#c8c5ca]/30 rounded-3xl p-6 h-72 flex flex-col gap-4 shadow-[0_8px_24px_-8px_rgba(0,0,0,0.06)] animate-pulse">
+                        <div className="bg-white dark:bg-zinc-900 border border-[#c8c5ca]/30 dark:border-zinc-700/50 rounded-3xl p-6 h-72 flex flex-col gap-4 shadow-[0_8px_24px_-8px_rgba(0,0,0,0.06)] dark:shadow-zinc-900/30 animate-pulse">
                           <div className="flex justify-between">
                             <div className="w-12 h-12 bg-[#e8f8f1] rounded-xl" />
                             <div className="w-20 h-6 bg-[#e8f8f1] rounded-full" />
@@ -220,7 +220,7 @@ export default function PlantTipsSlider() {
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-3 flex-wrap">
           <div className="flex items-center gap-1.5">
             <IoLeaf className="text-[#1b6b51]" />
-            <span className="text-lg font-bold text-black">PlantAid</span>
+            <span className="text-lg font-bold text-black dark:text-white">PlantAid</span>
           </div>
           <div className="flex gap-5">
             <a className="text-sm text-[#47464a] hover:text-[#1b6b51] transition-colors" href="#signup">Sign up</a>

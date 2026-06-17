@@ -221,7 +221,7 @@ const handleSave = useCallback(async ({ title, content, imageFile, userPlantId, 
                 <IoLeaf className="text-base" />
                 <span className="text-xs font-bold uppercase tracking-widest">Botanical Records</span>
               </div>
-              <h1 className="text-3xl font-extrabold tracking-tight text-black">Journal Logbook</h1>
+              <h1 className="text-3xl font-extrabold tracking-tight text-black dark:text-white">Journal Logbook</h1>
               <p className="text-[#47464a] text-sm">
                 Documenting the growth of your botanical sanctuary.
                 {entries.length > 0 && (
@@ -237,7 +237,7 @@ const handleSave = useCallback(async ({ title, content, imageFile, userPlantId, 
               <div className="relative group">
                 <MdSearch className="absolute left-3 top-1/2 -translate-y-1/2 text-[#47464a] group-focus-within:text-[#1b6b51] transition-colors text-lg" />
                 <input
-                  className="pl-10 pr-4 py-2.5 bg-white border border-zinc-200 rounded-xl focus:ring-2 focus:ring-[#1b6b51]/20 focus:border-[#1b6b51] outline-none transition-all w-full sm:w-56 text-sm"
+                  className="pl-10 pr-4 py-2.5 bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-700 rounded-xl focus:ring-2 focus:ring-[#1b6b51]/20 focus:border-[#1b6b51] outline-none transition-all w-full sm:w-56 text-sm text-black dark:text-white"
                   placeholder="Search entries…"
                   type="text"
                   value={searchQuery}

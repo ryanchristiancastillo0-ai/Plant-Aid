@@ -1,7 +1,7 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../Auth/Service/AuthContext';
-import { Topbar, FullPageLoader } from '../../../components/index';
+import { Topbar, FullPageLoader, Footer } from '../../../components/index';
 
 import {
   loadHistoryScreenData,
@@ -14,285 +14,123 @@ import {
 } from '../services/History';
 
 import {
-  MdCheckCircle,
-  MdWarning,
-  MdInfo,
-  MdChevronRight,
-  MdDeleteOutline,
   MdRefresh,
   MdHistory,
-  MdOutlineHealthAndSafety,
   MdBiotech,
-  MdSearchOff,
-  MdFilterList,
+  MdClose,
+  MdCheckCircle,
+  MdWarning,
+  MdHelpOutline,
 } from 'react-icons/md';
-import { IoLeaf } from 'react-icons/io5';
+
+import { BackButton, DeleteModal, EmptyState, FilterBar, ScanLogCard, StatsStrip } from '../components/index'
 
 
-// ─────────────────────────────────────────────────────────────
-// Constants
-// ─────────────────────────────────────────────────────────────
+// ============================================================
+// Scan Detail Modal (in-file component)
+// ============================================================
+function ScanDetailModal({ record, isOpen, onClose }) {
+  if (!isOpen || !record) return null;
 
-const FILTERS = ['All', 'Healthy', 'Disease Detected', 'Identified'];
-
-const STATUS_THEMES = {
-  solved: {
-    card:   'hover:border-[#1b6b51]',
-    badge:  'bg-[#a6f2d1] text-[#237157] border-[#a6f2d1]',
-    dot:    'bg-[#1b6b51]',
-    Icon:   MdCheckCircle,
-  },
-  danger: {
-    card:   'hover:border-[#ba1a1a]',
-    badge:  'bg-[#ffdad6] text-[#93000a] border-[#ffdad6]',
-    dot:    'bg-[#ba1a1a]',
-    Icon:   MdWarning,
-  },
-  neutral: {
-    card:   'hover:border-[#47464a]',
-    badge:  'bg-[#e8e7f1] text-[#47464a] border-[#e8e7f1]',
-    dot:    'bg-[#47464a]',
-    Icon:   MdInfo,
-  },
-};
-
-
-// ─────────────────────────────────────────────────────────────
-// Stats Strip
-// ─────────────────────────────────────────────────────────────
-function StatsStrip({ stats }) {
-  const items = [
-    {
-      label: 'Total Scans',
-      value: stats.total,
-      Icon:  MdHistory,
-      color: 'text-[#47464a]',
-      bg:    'bg-[#e8e7f1]',
-    },
-    {
-      label: 'Healthy',
-      value: stats.healthy,
-      Icon:  MdOutlineHealthAndSafety,
-      color: 'text-[#237157]',
-      bg:    'bg-[#a6f2d1]',
-    },
-    {
-      label: 'Diseased',
-      value: stats.diseased,
-      Icon:  MdWarning,
-      color: 'text-[#93000a]',
-      bg:    'bg-[#ffdad6]',
-    },
-    {
-      label: 'Identified',
-      value: stats.unknown,
-      Icon:  MdBiotech,
-      color: 'text-[#47464a]',
-      bg:    'bg-[#f4f2fd]',
-    },
-  ];
-
-  return (
-    <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-8">
-      {items.map(({ label, value, Icon, color, bg }) => (
-        <div
-          key={label}
-          className="bg-white border border-neutral-200/60 rounded-2xl p-4 flex items-center gap-3 shadow-[0_4px_16px_-4px_rgba(0,0,0,0.04)]"
-        >
-          <div className={`w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0 ${bg}`}>
-            <Icon className={`text-xl ${color}`} />
-          </div>
-          <div>
-            <p className="text-2xl font-extrabold text-black leading-none">{value}</p>
-            <p className="text-xs text-[#47464a] font-medium mt-0.5">{label}</p>
-          </div>
-        </div>
-      ))}
-    </div>
-  );
-}
-
-
-// ─────────────────────────────────────────────────────────────
-// Filter Bar
-// ─────────────────────────────────────────────────────────────
-function FilterBar({ active, onChange }) {
-  return (
-    <div className="flex items-center gap-2 mb-6 overflow-x-auto pb-1 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
-      <MdFilterList className="text-[#47464a] text-lg flex-shrink-0" />
-      {FILTERS.map((f) => (
-        <button
-          key={f}
-          onClick={() => onChange(f)}
-          className={`px-4 py-2 rounded-xl text-xs font-semibold whitespace-nowrap transition-all ${
-            active === f
-              ? 'bg-black text-white shadow-sm'
-              : 'bg-white border border-neutral-200/80 text-[#47464a] hover:border-[#1b6b51]/40'
-          }`}
-        >
-          {f}
-        </button>
-      ))}
-    </div>
-  );
-}
-
-
-// ─────────────────────────────────────────────────────────────
-// Scan Log Card
-// ─────────────────────────────────────────────────────────────
-function ScanLogCard({ record, onViewDetails, onDelete, deleting }) {
   const statusType  = deriveStatusType(record);
   const statusLabel = deriveStatusLabel(record);
-  const theme       = STATUS_THEMES[statusType] || STATUS_THEMES.neutral;
-  const { Icon }    = theme;
+
+  const statusStyles = {
+    solved:  { bg: 'bg-emerald-50',  text: 'text-emerald-700', icon: <MdCheckCircle className="text-base" /> },
+    danger:  { bg: 'bg-red-50',      text: 'text-red-700',     icon: <MdWarning className="text-base" /> },
+    neutral: { bg: 'bg-neutral-100', text: 'text-neutral-600', icon: <MdHelpOutline className="text-base" /> },
+  };
+  const style = statusStyles[statusType] ?? statusStyles.neutral;
 
   return (
     <div
-      className={`bg-white border border-neutral-200/50 rounded-[24px] p-4 shadow-[0_10px_30px_-10px_rgba(0,0,0,0.05)] flex items-center justify-between group transition-all duration-300 hover:-translate-y-0.5 ${theme.card}`}
-    >
-      {/* Left — avatar + info */}
-      <div className="flex items-center gap-4 min-w-0 flex-1">
-        {/* Plant image placeholder — identificationHistory has no stored imageUrl */}
-        <div className="w-14 h-14 rounded-2xl bg-[#eeedf7] flex-shrink-0 flex items-center justify-center border border-neutral-100">
-          <IoLeaf className="text-2xl text-[#a6f2d1]" />
-        </div>
-
-        <div className="flex flex-col min-w-0">
-          <h3 className="text-sm font-bold text-black truncate leading-tight">
-            {record.commonName || 'Unknown Plant'}
-          </h3>
-          {record.scientificName && (
-            <p className="text-xs italic text-[#47464a] truncate mt-0.5">{record.scientificName}</p>
-          )}
-          <p className="text-xs text-[#47464a] mt-1">{formatScanDate(record.scannedAt)}</p>
-          {record.confidence != null && (
-            <p className="text-[10px] text-[#47464a] opacity-60 mt-0.5">
-              {formatConfidenceLabel(record.confidence)}
-            </p>
-          )}
-        </div>
-      </div>
-
-      {/* Right — badge + actions */}
-      <div className="flex items-center gap-3 flex-shrink-0 ml-3">
-        {/* Disease tag if present */}
-        {record.detectedDisease?.trim() && (
-          <span className="hidden md:block text-[10px] font-semibold text-[#93000a] bg-[#ffdad6] px-2 py-0.5 rounded-full max-w-[120px] truncate">
-            {record.detectedDisease}
-          </span>
-        )}
-
-        {/* Status badge */}
-        <span
-          className={`hidden sm:flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold border ${theme.badge}`}
-        >
-          <Icon className="text-sm flex-shrink-0" />
-          {statusLabel}
-        </span>
-
-        {/* Delete */}
-        <button
-          onClick={() => onDelete(record.id)}
-          disabled={deleting}
-          title="Delete record"
-          className="w-9 h-9 flex items-center justify-center rounded-full text-[#47464a] hover:bg-[#ffdad6] hover:text-[#93000a] transition-all duration-200 active:scale-95 disabled:opacity-40"
-        >
-          {deleting
-            ? <span className="w-3 h-3 border-2 border-[#47464a] border-t-transparent rounded-full animate-spin" />
-            : <MdDeleteOutline className="text-lg" />
-          }
-        </button>
-
-        {/* View Details */}
-        <button
-          onClick={() => onViewDetails(record.id)}
-          aria-label={`View details for ${record.commonName}`}
-          className="w-9 h-9 flex items-center justify-center rounded-full text-[#47464a] hover:bg-[#eeedf7] transition-all duration-200 active:scale-95"
-        >
-          <MdChevronRight className="text-xl" />
-        </button>
-      </div>
-    </div>
-  );
-}
-
-
-// ─────────────────────────────────────────────────────────────
-// Empty State
-// ─────────────────────────────────────────────────────────────
-function EmptyState({ filtered, onGoScan }) {
-  return (
-    <div className="flex flex-col items-center justify-center py-24 text-center gap-4">
-      <div className="w-16 h-16 rounded-2xl bg-[#eeedf7] flex items-center justify-center">
-        {filtered
-          ? <MdSearchOff className="text-3xl text-[#c8c5ca]" />
-          : <MdHistory    className="text-3xl text-[#c8c5ca]" />
-        }
-      </div>
-      <div>
-        <p className="text-base font-bold text-black">
-          {filtered ? 'No matches found' : 'No scans yet'}
-        </p>
-        <p className="text-sm text-[#47464a] mt-1 max-w-xs">
-          {filtered
-            ? 'Try a different filter to see your scan records.'
-            : 'Head to the Diagnostic Scanner to identify your first plant.'}
-        </p>
-      </div>
-      {!filtered && (
-        <button
-          onClick={onGoScan}
-          className="mt-2 flex items-center gap-2 bg-black text-white px-5 py-2.5 rounded-xl text-sm font-semibold hover:opacity-90 active:scale-95 transition-all"
-        >
-          <MdBiotech className="text-base" /> Go to Scanner
-        </button>
-      )}
-    </div>
-  );
-}
-
-
-// ─────────────────────────────────────────────────────────────
-// Delete Confirm Modal
-// ─────────────────────────────────────────────────────────────
-function DeleteModal({ isOpen, onConfirm, onCancel, deleting }) {
-  if (!isOpen) return null;
-  return (
-    <div
-      onClick={onCancel}
-      className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm animate-in fade-in"
+      className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm px-4"
+      onClick={onClose}
     >
       <div
+        className="bg-white rounded-3xl shadow-xl max-w-md w-full max-h-[85vh] overflow-y-auto"
         onClick={(e) => e.stopPropagation()}
-        className="bg-white rounded-3xl p-8 max-w-sm w-full border border-neutral-200 shadow-2xl flex flex-col gap-4 animate-in zoom-in-95"
       >
-        <div className="w-12 h-12 rounded-2xl bg-[#ffdad6] flex items-center justify-center">
-          <MdDeleteOutline className="text-2xl text-[#ba1a1a]" />
-        </div>
-        <div>
-          <h3 className="text-lg font-extrabold text-black">Delete Record?</h3>
-          <p className="text-sm text-[#47464a] mt-1 leading-relaxed">
-            This scan record will be permanently removed from your history. This cannot be undone.
-          </p>
-        </div>
-        <div className="flex gap-3 mt-2">
-          <button
-            onClick={onCancel}
-            className="flex-1 border border-neutral-200 text-black py-2.5 rounded-xl text-sm font-semibold hover:bg-neutral-50 transition-all"
-          >
-            Cancel
-          </button>
-          <button
-            onClick={onConfirm}
-            disabled={deleting}
-            className="flex-1 bg-[#ba1a1a] text-white py-2.5 rounded-xl text-sm font-semibold hover:opacity-90 disabled:opacity-50 transition-all flex items-center justify-center gap-2"
-          >
-            {deleting
-              ? <span className="w-4 h-4 border-2 border-white/40 border-t-white rounded-full animate-spin" />
-              : 'Delete'
-            }
-          </button>
+        {/* Image */}
+        {record.imageUrl && (
+          <div className="w-full h-56 bg-neutral-100 rounded-t-3xl overflow-hidden">
+            <img
+              src={record.imageUrl}
+              alt={record.commonName || 'Scanned plant'}
+              className="w-full h-full object-cover"
+            />
+          </div>
+        )}
+
+        <div className="p-6">
+          {/* Close button */}
+          <div className="flex justify-end mb-2 -mt-2">
+            <button
+              onClick={onClose}
+              className="text-neutral-400 hover:text-black transition-colors"
+              aria-label="Close"
+            >
+              <MdClose className="text-2xl" />
+            </button>
+          </div>
+
+          {/* Status badge */}
+          <div className={`inline-flex items-center gap-1.5 ${style.bg} ${style.text} text-xs font-bold px-3 py-1.5 rounded-full mb-3`}>
+            {style.icon}
+            {statusLabel}
+          </div>
+
+          {/* Names */}
+          <h2 className="text-2xl font-bold text-black">
+            {record.commonName || 'Unknown Plant'}
+          </h2>
+          {record.scientificName && (
+            <p className="text-sm text-[#47464a] italic mt-1">{record.scientificName}</p>
+          )}
+
+          {/* Meta row */}
+          <div className="flex items-center gap-3 mt-4 text-sm text-[#47464a]">
+            <span>{formatScanDate(record.scannedAt)}</span>
+            <span className="text-neutral-300">•</span>
+            <span>{formatConfidenceLabel(record.confidence)}</span>
+          </div>
+
+          {/* Disease details */}
+          {record.detectedDisease?.trim() && (
+            <div className="mt-5 bg-red-50 border border-red-100 rounded-2xl p-4">
+              <h3 className="text-sm font-bold text-red-700 mb-1">
+                {record.detectedDisease}
+              </h3>
+              {record.diseaseProbability != null && (
+                <p className="text-xs text-red-600 mb-2">
+                  {Math.round(record.diseaseProbability)}% probability
+                </p>
+              )}
+              {record.diseaseDescription && (
+                <p className="text-sm text-[#47464a] leading-relaxed">
+                  {record.diseaseDescription}
+                </p>
+              )}
+            </div>
+          )}
+
+          {/* Healthy message */}
+          {record.isHealthy && !record.detectedDisease?.trim() && (
+            <div className="mt-5 bg-emerald-50 border border-emerald-100 rounded-2xl p-4">
+              <p className="text-sm text-emerald-700">
+                No issues detected — this plant looks healthy.
+              </p>
+            </div>
+          )}
+
+          {/* Not a plant message */}
+          {!record.isPlant && (
+            <div className="mt-5 bg-neutral-50 border border-neutral-100 rounded-2xl p-4">
+              <p className="text-sm text-[#47464a]">
+                This image wasn't recognized as a plant.
+              </p>
+            </div>
+          )}
         </div>
       </div>
     </div>
@@ -300,26 +138,9 @@ function DeleteModal({ isOpen, onConfirm, onCancel, deleting }) {
 }
 
 
-// ─────────────────────────────────────────────────────────────
-// Footer
-// ─────────────────────────────────────────────────────────────
-function Footer() {
-  return (
-    <footer className="bg-[#fbf8ff] w-full py-6 flex flex-col items-center gap-2 px-6 mt-auto border-t border-[#c8c5ca]">
-      <div className="flex flex-wrap justify-center gap-6 mb-1">
-        <a className="text-[#47464a] hover:text-[#1b6b51] transition-colors text-sm" href="#">Sign up</a>
-        <a className="text-[#47464a] hover:text-[#1b6b51] transition-colors text-sm" href="#">Privacy Policy</a>
-        <a className="text-[#47464a] hover:text-[#1b6b51] transition-colors text-sm" href="#">Help Center</a>
-      </div>
-      <p className="text-sm text-[#1b6b51] font-bold">© {new Date().getFullYear()} PlantAid. Botanical Precision.</p>
-    </footer>
-  );
-}
-
-
-// ─────────────────────────────────────────────────────────────
-// Main – ScanningHistoryLogs
-// ─────────────────────────────────────────────────────────────
+// ============================================================
+// Main Screen
+// ============================================================
 export default function ScanningHistoryLogs() {
   const navigate          = useNavigate();
   const { currentUser }   = useAuth();
@@ -340,6 +161,20 @@ export default function ScanningHistoryLogs() {
   // ── Delete state ─────────────────────────────────────────
   const [deleteTarget, setDeleteTarget] = useState(null);   // scanId pending confirm
   const [deletingId,   setDeletingId]   = useState(null);   // scanId being deleted
+
+  // ── Detail modal state ───────────────────────────────────
+  const [detailRecord, setDetailRecord] = useState(null);   // full record being viewed
+
+  // ── Card menu state ──────────────────────────────────────
+  const [openMenuId, setOpenMenuId] = useState(null);
+
+  // Close any open card menu on outside click
+  useEffect(() => {
+    if (!openMenuId) return;
+    const handleClick = () => setOpenMenuId(null);
+    document.addEventListener('click', handleClick);
+    return () => document.removeEventListener('click', handleClick);
+  }, [openMenuId]);
 
   // ── Load on mount ────────────────────────────────────────
   useEffect(() => {
@@ -408,10 +243,11 @@ export default function ScanningHistoryLogs() {
     }
   }, [deleteTarget, records]);
 
-  // ── Navigate to scan detail / scanner ───────────────────
-  const handleViewDetails = (scanId) => {
-    navigate(`/diagnostic/${scanId}`);
-  };
+  // ── View details (opens modal instead of navigating) ─────
+const handleViewDetails = (scanId) => {
+  const record = records.find((r) => r.id === scanId);
+  setDetailRecord(record ?? null);
+};
 
   // ── Client-side filtering ────────────────────────────────
   const filteredRecords = records.filter((r) => {
@@ -438,11 +274,19 @@ export default function ScanningHistoryLogs() {
         deleting={!!deletingId}
       />
 
+      <ScanDetailModal
+        record={detailRecord}
+        isOpen={!!detailRecord}
+        onClose={() => setDetailRecord(null)}
+      />
+
       <main className="flex-grow bg-neutral-50/60 px-4 md:px-6 py-8 md:py-10">
         <div className="max-w-3xl mx-auto">
 
           {/* Page Header */}
           <header className="mb-8">
+            <BackButton onClick={() => navigate('/diagnostic-scan')} />
+
             <div className="flex items-center gap-2 text-[#1b6b51] mb-3">
               <MdHistory className="text-lg" />
               <span className="text-xs font-bold uppercase tracking-widest">Scan Records</span>
@@ -503,6 +347,9 @@ export default function ScanningHistoryLogs() {
                   onViewDetails={handleViewDetails}
                   onDelete={handleDeleteRequest}
                   deleting={deletingId === record.id}
+                  menuOpen={openMenuId === record.id}
+                  onToggleMenu={(id) => setOpenMenuId((prev) => (prev === id ? null : id))}
+                  onCloseMenu={() => setOpenMenuId(null)}
                 />
               ))}
             </div>

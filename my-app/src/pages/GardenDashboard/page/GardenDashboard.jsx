@@ -146,7 +146,7 @@ export default function GardenDashboard() {
       </main>
 
       {/* Footer */}
-      <footer className="border-t border-[#c8c5ca]/40 bg-white px-6 py-6 flex flex-col items-center gap-1.5 pb-24 md:pb-6">
+      <footer className="border-t border-[#c8c5ca]/40 dark:border-zinc-700 bg-white dark:bg-[#0f0f0f] px-6 py-6 flex flex-col items-center gap-1.5 pb-24 md:pb-6">
         <div className="flex items-center gap-1.5">
           <IoLeaf className="text-[#1b6b51] text-sm" />
           <span className="text-sm font-bold text-black">PlantAid</span>

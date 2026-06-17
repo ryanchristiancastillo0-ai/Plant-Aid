@@ -8,7 +8,7 @@ export default function CarouselTipCard({ tip, onDeepDive }) {
 
   return (
     <div className="min-w-[260px] md:min-w-[360px] snap-start flex-shrink-0">
-      <div className="bg-white border border-[#c8c5ca]/30 rounded-3xl p-6 h-full flex flex-col shadow-[0_8px_24px_-8px_rgba(0,0,0,0.06)] hover:border-[#1b6b51] transition-colors duration-300">
+      <div className="bg-white dark:bg-zinc-900 border border-[#c8c5ca]/30 dark:border-zinc-700/50 rounded-3xl p-6 h-full flex flex-col shadow-[0_8px_24px_-8px_rgba(0,0,0,0.06)] dark:shadow-zinc-900/30 hover:border-[#1b6b51] transition-colors duration-300">
         <div className="flex items-start justify-between mb-5">
           <div className="w-12 h-12 bg-[#a6f2d1] rounded-xl flex items-center justify-center">
             <Icon className="text-[#237157] text-2xl" />
@@ -22,7 +22,7 @@ export default function CarouselTipCard({ tip, onDeepDive }) {
             </span>
           </div>
         </div>
-        <h3 className="text-lg font-bold text-black tracking-tight leading-snug mb-2">{tip.title}</h3>
+        <h3 className="text-lg font-bold text-black dark:text-white tracking-tight leading-snug mb-2">{tip.title}</h3>
         <p className="text-sm text-[#47464a] leading-relaxed flex-1 mb-4">{tip.summary}</p>
         {tip.tags?.length > 0 && (
           <div className="flex flex-wrap gap-1.5 mb-4">

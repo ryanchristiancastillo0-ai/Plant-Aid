@@ -1,5 +1,6 @@
 import React, { useState, useRef, useCallback, useEffect } from 'react';
 import { useAuth } from '../../Auth/Service/AuthContext';
+
 import { Topbar, FullPageLoader, MobileNav, Footer } from '../../../components/index';
 import {
   runScanPipeline,
@@ -16,6 +17,7 @@ import {BentoGridTips,NotAPlantCard,PlantIdResultPanel,ScanHistory,ScannerViewpo
 
 
 export default function DiagnosticScan() {
+  const fileInputRef = useRef(null);
   const { currentUser } = useAuth();
   const userId = currentUser?.uid ?? null;
 
@@ -54,6 +56,11 @@ export default function DiagnosticScan() {
       }
     })();
   }, [userId]);
+
+
+  const handleScanAnother = useCallback(() => {
+  fileInputRef.current?.click();
+}, []);
 
   // ── Handle file → Plant.id → Gemini ──────────────────────
   const handleFileSelected = useCallback(async (file) => {
@@ -183,7 +190,7 @@ export default function DiagnosticScan() {
             <MdBiotech className="text-xl" />
             <span className="text-xs font-bold uppercase tracking-widest">AI Identification</span>
           </div>
-          <h1 className="text-3xl font-bold text-black tracking-tight" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
+          <h1 className="text-3xl font-bold text-black dark:text-white tracking-tight" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
             Diagnostic Scan
           </h1>
           <p className="text-sm text-[#47464a]">
@@ -198,6 +205,30 @@ export default function DiagnosticScan() {
             <button onClick={handleRetry} className="ml-auto text-xs font-bold underline hover:opacity-70">Dismiss</button>
           </div>
         )}
+
+        {scanResult && (
+  <div className="w-full max-w-3xl flex justify-center">
+    <input
+      ref={fileInputRef}
+      type="file"
+      accept="image/*"
+      className="hidden"
+      onChange={(e) => {
+        const file = e.target.files?.[0];
+        if (file) handleFileSelected(file);
+        e.target.value = ''; // allow re-selecting same file
+      }}
+    />
+    <button
+      onClick={handleScanAnother}
+      className="flex items-center gap-2 bg-[#1b6b51] text-white text-sm font-bold px-5 py-2.5 rounded-xl hover:opacity-90 active:scale-95 transition-all"
+      style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}
+    >
+      <MdBiotech className="text-base" />
+      Scan Another Plant
+    </button>
+  </div>
+)}
 
         {!scanResult ? (
           <ScannerViewport

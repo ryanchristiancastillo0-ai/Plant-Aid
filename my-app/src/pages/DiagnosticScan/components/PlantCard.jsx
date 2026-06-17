@@ -38,7 +38,7 @@ import { FaSeedling } from 'react-icons/fa6';
 // ─────────────────────────────────────────────────────────────
 function AnalysisSkeleton() {
   return (
-    <div className="w-full max-w-3xl mx-auto bg-white rounded-3xl border border-[#c8c5ca]/40 p-6 shadow-[0_8px_30px_rgba(0,0,0,0.03)] space-y-5 animate-pulse">
+    <div className="w-full max-w-3xl mx-auto bg-white dark:bg-[#1a1a1a] rounded-3xl border border-[#c8c5ca]/40 dark:border-zinc-700/50 p-6 shadow-[0_8px_30px_rgba(0,0,0,0.03)] dark:shadow-zinc-900/20 space-y-5 animate-pulse">
       <div className="flex items-center gap-3 mb-2">
         <div className="w-8 h-8 rounded-xl bg-zinc-100" />
         <div className="h-5 w-48 bg-zinc-100 rounded-full" />
@@ -67,7 +67,7 @@ function AnalysisSection({ icon: Icon, title, iconColor = 'text-[#1b6b51]', icon
   const [open, setOpen] = useState(defaultOpen);
 
   return (
-    <div className="bg-white rounded-2xl border border-[#c8c5ca]/40 overflow-hidden">
+    <div className="bg-white dark:bg-zinc-900 rounded-2xl border border-[#c8c5ca]/40 dark:border-zinc-700/50 overflow-hidden">
       <button
         onClick={() => setOpen(!open)}
         className="w-full flex items-center justify-between px-5 py-4 hover:bg-zinc-50/60 transition-colors"
@@ -76,7 +76,7 @@ function AnalysisSection({ icon: Icon, title, iconColor = 'text-[#1b6b51]', icon
           <div className={`w-8 h-8 rounded-xl ${iconBg} ${iconColor} flex items-center justify-center flex-shrink-0`}>
             <Icon className="text-base" />
           </div>
-          <span className="text-sm font-bold text-black" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
+          <span className="text-sm font-bold text-black dark:text-white" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
             {title}
           </span>
         </div>
@@ -104,7 +104,7 @@ function InfoRow({ label, value }) {
   return (
     <div className="flex items-start justify-between gap-3 py-2 border-b border-zinc-50 last:border-0">
       <span className="text-xs font-semibold text-[#47464a] flex-shrink-0 w-28">{label}</span>
-      <span className="text-xs text-black text-right flex-1">{value}</span>
+      <span className="text-xs text-black dark:text-white text-right flex-1">{value}</span>
     </div>
   );
 }
@@ -169,11 +169,11 @@ export function PlantAnalysisCard({ analysis, loading, error }) {
       </div>
 
       {/* Overview card */}
-      <div className="bg-white rounded-3xl border border-[#c8c5ca]/40 p-6 shadow-[0_8px_30px_rgba(0,0,0,0.03)] space-y-4">
+      <div className="bg-white dark:bg-zinc-900 rounded-3xl border border-[#c8c5ca]/40 dark:border-zinc-700/50 p-6 shadow-[0_8px_30px_rgba(0,0,0,0.03)] dark:shadow-zinc-900/20 space-y-4">
         {/* Title row */}
         <div className="flex items-start justify-between gap-3 flex-wrap">
           <div>
-            <h3 className="text-xl font-extrabold text-black leading-tight" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
+            <h3 className="text-xl font-extrabold text-black dark:text-white leading-tight" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
               {analysis.commonName}
             </h3>
             <p className="text-xs italic text-[#47464a] mt-0.5">{analysis.scientificName}</p>

@@ -63,7 +63,7 @@ export default function NotificationsDropdown() {
         {/* Dropdown — fixed position breaks out of sticky header stacking context */}
         {isOpen && (
           <div
-            className="fixed w-80 bg-white border border-neutral-200/70 rounded-2xl shadow-2xl overflow-hidden"
+            className="fixed w-80 bg-white dark:bg-[#1a1a1a] border border-neutral-200/70 dark:border-zinc-700 rounded-2xl shadow-2xl overflow-hidden"
             style={{
               animation: 'fadeDown 0.15s ease-out',
               // Position it below the header (60px) on the right side

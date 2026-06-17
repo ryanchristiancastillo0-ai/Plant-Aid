@@ -163,7 +163,7 @@ useEffect(() => {
   const unreadCount = reminders.filter((n) => n.unread).length;
 
   return (
-    <header className="w-full h-16 bg-white flex items-center justify-center px-4 sm:px-6 border-b border-zinc-200/80 sticky top-0 z-40">
+    <header className="w-full h-16 bg-white dark:bg-[#1a1a1a] flex items-center justify-center px-4 sm:px-6 border-b border-zinc-200/80 dark:border-zinc-700/80 sticky top-0 z-40">
       <nav className="flex items-center justify-between w-full max-w-7xl mx-auto">
 
         {/* Logo */}

@@ -13,7 +13,7 @@ export default function BentoGridTips() {
           <MdLightbulb className="text-xl" />
         </div>
         <div>
-          <h3 className="text-sm font-bold text-black mb-1">Optimisation Tip</h3>
+          <h3 className="text-sm font-bold text-black dark:text-white mb-1">Optimisation Tip</h3>
           <p className="text-xs text-[#47464a] leading-relaxed">
             For highest accuracy, ensure the specimen is in natural indirect light and centred within the frame brackets.
           </p>
@@ -24,7 +24,7 @@ export default function BentoGridTips() {
           <MdSecurity className="text-xl" />
         </div>
         <div>
-          <h3 className="text-sm font-bold text-black mb-1">Privacy Guard</h3>
+          <h3 className="text-sm font-bold text-black dark:text-white mb-1">Privacy Guard</h3>
           <p className="text-xs text-[#47464a] leading-relaxed">
             Scan results are saved to your personal history only. No images stored on our servers.
           </p>

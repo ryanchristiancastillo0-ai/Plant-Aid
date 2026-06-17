@@ -313,7 +313,7 @@ export default function ForgotPasswordFlow() {
 
   return (
     <div className="bg-zinc-50/60 min-h-screen text-[#1a1b22] flex items-center justify-center p-4 antialiased">
-      <main className="w-full max-w-md bg-white rounded-3xl border border-zinc-200/50 shadow-sm p-8 md:p-10 relative overflow-hidden">
+      <main className="w-full max-w-md bg-white dark:bg-[#1a1a1a] rounded-3xl border border-zinc-200/50 dark:border-zinc-700 shadow-sm p-8 md:p-10 relative overflow-hidden">
 
         {/* Brand */}
         <div className="mb-8 flex flex-col items-center gap-2">

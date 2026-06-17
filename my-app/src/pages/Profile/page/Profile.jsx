@@ -123,7 +123,7 @@ export default function Profile() {
         </div>
 
         {/* Hero card */}
-        <div className="bg-white rounded-3xl border border-neutral-200/60 p-6 shadow-[0_4px_20px_rgb(0,0,0,0.02)] flex flex-col sm:flex-row items-start sm:items-center gap-6">
+        <div className="bg-white dark:bg-zinc-900 rounded-3xl border border-neutral-200/60 dark:border-zinc-700/60 p-6 shadow-[0_4px_20px_rgb(0,0,0,0.02)] dark:shadow-zinc-900/20 flex flex-col sm:flex-row items-start sm:items-center gap-6">
           <Avatar photoURL={photoURL} initials={initials} />
 
           <div className="flex-1 min-w-0 space-y-1.5">
@@ -173,7 +173,7 @@ export default function Profile() {
             Account settings
           </p>
 
-          <div className="bg-white rounded-2xl border border-neutral-200/60 p-6 shadow-[0_4px_20px_rgb(0,0,0,0.02)]">
+          <div className="bg-white dark:bg-zinc-900 rounded-2xl border border-neutral-200/60 dark:border-zinc-700/60 p-6 shadow-[0_4px_20px_rgb(0,0,0,0.02)] dark:shadow-zinc-900/20">
             <div className="flex items-center gap-3">
               <div className="w-9 h-9 rounded-xl bg-[#e8f5e9] flex items-center justify-center flex-shrink-0">
                 <MdEmail className="text-emerald-600 text-lg" />

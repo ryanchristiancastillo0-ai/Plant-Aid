@@ -46,7 +46,7 @@ export default function WeatherInsight() {
   };
 
   return (
-    <section className="col-span-12 bg-white rounded-3xl border border-zinc-200 p-6 flex flex-col md:flex-row items-start md:items-center gap-8 relative overflow-hidden transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-zinc-100">
+    <section className="col-span-12 bg-white dark:bg-zinc-900 rounded-3xl border border-zinc-200 dark:border-zinc-700 p-6 flex flex-col md:flex-row items-start md:items-center gap-8 relative overflow-hidden transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-zinc-100 dark:hover:shadow-zinc-900/30">
       <div className="absolute top-0 right-0 p-6 opacity-[0.04] pointer-events-none select-none">
         <WiCloud className="text-[160px]" />
       </div>

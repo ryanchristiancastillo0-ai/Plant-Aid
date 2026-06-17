@@ -121,7 +121,7 @@ export default function PlantAidUpcomingPreview() {
 
   return (
     <div
-      className="bg-[#fbf8ff] pb-20 lg:pb-8 text-[#1a1b22] min-h-screen flex flex-col"
+      className="bg-[#fbf8ff] dark:bg-[#0f0f0f] pb-20 lg:pb-8 text-[#1a1b22] dark:text-gray-100 min-h-screen flex flex-col"
       style={{ fontFamily: 'Manrope, sans-serif' }}
     >
       {/* Topbar — your reusable component */}
@@ -156,7 +156,7 @@ export default function PlantAidUpcomingPreview() {
                 </h3>
               </div>
               <div
-                className="text-3xl font-bold text-black"
+                className="text-3xl font-bold text-black dark:text-white"
                 style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}
               >
                 {upcoming.length}
@@ -175,7 +175,7 @@ export default function PlantAidUpcomingPreview() {
                 </h3>
               </div>
               <div
-                className={`text-3xl font-bold ${overdue.length > 0 ? 'text-amber-500' : 'text-black'}`}
+                className={`text-3xl font-bold ${overdue.length > 0 ? 'text-amber-500' : 'text-black dark:text-white'}`}
                 style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}
               >
                 {overdue.length}
@@ -202,17 +202,17 @@ export default function PlantAidUpcomingPreview() {
       </main>
 
       {/* Footer */}
-      <footer className="bg-[#fbf8ff] border-t border-[#c8c5ca] py-5 px-6 flex flex-col items-center gap-2 mt-auto">
+      <footer className="bg-[#fbf8ff] dark:bg-[#0f0f0f] border-t border-[#c8c5ca] dark:border-zinc-700 py-5 px-6 flex flex-col items-center gap-2 mt-auto">
         <div
-          className="text-lg font-bold text-black"
+          className="text-lg font-bold text-black dark:text-white"
           style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}
         >
           PlantAid
         </div>
         <div className="flex gap-5">
-          <a className="text-sm text-[#47464a] hover:text-[#1b6b51] transition-colors" href="#signup">Sign up</a>
-          <a className="text-sm text-[#47464a] hover:text-[#1b6b51] transition-colors" href="#privacy">Privacy Policy</a>
-          <a className="text-sm text-[#47464a] hover:text-[#1b6b51] transition-colors" href="#help">Help Center</a>
+          <a className="text-sm text-[#47464a] dark:text-gray-400 hover:text-[#1b6b51] transition-colors" href="#signup">Sign up</a>
+          <a className="text-sm text-[#47464a] dark:text-gray-400 hover:text-[#1b6b51] transition-colors" href="#privacy">Privacy Policy</a>
+          <a className="text-sm text-[#47464a] dark:text-gray-400 hover:text-[#1b6b51] transition-colors" href="#help">Help Center</a>
         </div>
         <p className="text-sm text-[#1b6b51]">© {new Date().getFullYear()} PlantAid. Botanical Precision.</p>
       </footer>

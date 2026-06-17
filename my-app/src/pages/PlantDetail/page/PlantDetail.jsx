@@ -1,27 +1,34 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import {
   MdArrowBack,
-  MdMoreVert,
   MdEdit,
-  MdPlusOne,
-
+  MdErrorOutline,
 } from 'react-icons/md';
 import { IoLeaf } from 'react-icons/io5';
+import { GiNotebook } from 'react-icons/gi';
 import { useAuth } from '../../Auth/Service/AuthContext';
 import { FullPageLoader } from '../../../components/index';
-
 import {
   loadPlantDetailsData,
   daysSincePlanted,
+  updateUserPlant,
 } from '../services/PlantDetailService';
 import { findUserPlant } from '../../PlantDirectory/services/PlantService';
-import { updateUserPlant } from '../services/PlantDetailService';
+import {
+  BotanicalSpecsView,
+  CareRemindersView,
+  JournalLogsView,
+  ProgressView,
+  PlantPlaceholder,
+  StagePill
+} from '../components/index';
 
-import {BotanicalSpecsView,CareRemindersView,JournalLogsView,ProgressView} from '../components/index'
-import { GiNotebook } from 'react-icons/gi';
+import {TABS} from '../constant/detail'
 
 
+
+// ── Main ─────────────────────────────────────────────────────
 export default function PlantDetails() {
   const { plantId }     = useParams();
   const navigate        = useNavigate();
@@ -34,13 +41,7 @@ export default function PlantDetails() {
   const [loading,     setLoading]     = useState(true);
   const [error,       setError]       = useState(null);
   const [uploading,   setUploading]   = useState(false);
-
-  const tabList = [
-    { id: 'progress', label: 'Progress'        },
-    { id: 'care',     label: 'Care Reminders'  },
-    { id: 'journal',  label: 'Journal Logs'    },
-    { id: 'specs',    label: 'Botanical Specs' },
-  ];
+  const [imgError,    setImgError]    = useState(false);
 
   const loadData = useCallback(async () => {
     if (!userId || !plantId) return;
@@ -52,14 +53,12 @@ export default function PlantDetails() {
         setError(null);
         return;
       }
-      const resolvedUserPlantId = userPlantDoc.id;
-      setUserPlantId(resolvedUserPlantId);
-      const result = await loadPlantDetailsData(resolvedUserPlantId, userId);
+      const resolvedId = userPlantDoc.id;
+      setUserPlantId(resolvedId);
+      const result = await loadPlantDetailsData(resolvedId, userId);
       setData(result);
       setError(null);
-console.log('plantedDate raw:', result?.userPlant?.plantedDate);
-console.log('days:', daysSincePlanted(result?.userPlant?.plantedDate));
-
+      setImgError(false);
     } catch (err) {
       console.error('PlantDetails load error:', err);
       setError('Could not load plant data. Please check your connection.');
@@ -73,26 +72,20 @@ console.log('days:', daysSincePlanted(result?.userPlant?.plantedDate));
     loadData();
   }, [loadData]);
 
-  // ── Image upload → base64 → Firestore ───────────────────
   const handleImageUpload = async (e) => {
     const file = e.target.files?.[0];
     if (!file || !userPlantId) return;
-
-    if (file.size > 2 * 1024 * 1024) {
-      alert('Image must be under 2MB.');
-      return;
-    }
-
+    if (file.size > 2 * 1024 * 1024) { alert('Image must be under 2MB.'); return; }
     setUploading(true);
     try {
-      const base64 = await new Promise((resolve, reject) => {
+      const base64 = await new Promise((res, rej) => {
         const reader = new FileReader();
-        reader.onload  = () => resolve(reader.result);
-        reader.onerror = reject;
+        reader.onload  = () => res(reader.result);
+        reader.onerror = rej;
         reader.readAsDataURL(file);
       });
-
       await updateUserPlant(userPlantId, { imageUrl: base64 });
+      setImgError(false);
       await loadData();
     } catch (err) {
       console.error('Image upload error:', err);
@@ -105,19 +98,22 @@ console.log('days:', daysSincePlanted(result?.userPlant?.plantedDate));
 
   if (loading) return <FullPageLoader message="Loading plant details, please wait" />;
 
+  // ── Not in garden state ──────────────────────────────────
   if (!data?.userPlant) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-zinc-50">
-        <div className="text-center px-6">
-          <div className="w-20 h-20 rounded-3xl bg-emerald-50 flex items-center justify-center mx-auto mb-5">
+      <div className="min-h-screen flex items-center justify-center bg-zinc-50 px-6">
+        <div className="text-center max-w-sm">
+          <div className="w-20 h-20 rounded-3xl bg-emerald-50 border-2 border-dashed border-emerald-200 flex items-center justify-center mx-auto mb-6">
             <IoLeaf className="text-4xl text-emerald-300" />
           </div>
           <h2 className="text-2xl font-extrabold text-zinc-900 tracking-tight">Not in your garden</h2>
-          <p className="text-zinc-400 text-sm mt-2 max-w-xs mx-auto leading-relaxed font-medium">
-            Add this plant to your garden from the directory first to track it here.
+          <p className="text-zinc-400 text-sm mt-2 leading-relaxed font-medium">
+            Add this plant from the directory first to start tracking it here.
           </p>
-          <button onClick={() => navigate(-1)}
-            className="mt-6 bg-zinc-900 text-white px-6 py-2.5 rounded-xl text-sm font-bold hover:opacity-90 transition-all">
+          <button
+            onClick={() => navigate(-1)}
+            className="mt-6 bg-zinc-900 text-white px-6 py-2.5 rounded-xl text-sm font-bold hover:opacity-90 transition-all"
+          >
             Back to Directory
           </button>
         </div>
@@ -129,13 +125,18 @@ console.log('days:', daysSincePlanted(result?.userPlant?.plantedDate));
   const displayName    = userPlant.nickname || masterPlant?.name || 'My Plant';
   const scientificName = masterPlant?.scientificName || '';
   const days           = daysSincePlanted(userPlant.plantedDate);
+  const displayImg = userPlant?.imageUrl?.startsWith('data:') 
+  ? userPlant.imageUrl       // user uploaded a custom base64 photo
+  : masterPlant?.imageUrl;   // fall back to catalog image
+
+const hasValidImg = displayImg && !imgError;
 
   return (
     <div className="bg-zinc-50 min-h-screen font-sans text-zinc-800 flex flex-col antialiased selection:bg-emerald-100 selection:text-emerald-900">
 
-      {/* Top Nav — matches DashboardToday navigation style */}
-      <header className="w-full h-16 bg-white flex items-center justify-center px-6 border-b border-zinc-200/80 sticky top-0 z-40">
-        <nav className="flex items-center justify-between w-full max-w-7xl mx-auto">
+      {/* ── Top Nav — matches PlantDirectory style ── */}
+      <header className="w-full h-16 bg-white border-b border-zinc-200/80 sticky top-0 z-40 flex items-center px-4 md:px-6">
+        <div className="flex items-center justify-between w-full max-w-5xl mx-auto">
           <div className="flex items-center gap-3">
             <button
               onClick={() => navigate(-1)}
@@ -149,72 +150,92 @@ console.log('days:', daysSincePlanted(result?.userPlant?.plantedDate));
               <span className="text-xl font-extrabold text-zinc-900 tracking-tight">PlantAid</span>
             </div>
           </div>
-          <div className="hidden md:flex gap-6 text-sm">
-            <button onClick={() => navigate('/')}           className="text-zinc-400 hover:text-zinc-900 transition-colors font-medium">Today</button>
-            <button onClick={() => navigate('/collection')} className="text-zinc-400 hover:text-zinc-900 transition-colors font-medium">My Collection</button>
-            <button onClick={() => navigate('/reports')}    className="text-zinc-400 hover:text-zinc-900 transition-colors font-medium">Health Reports</button>
+
+          {/* Actions in nav on desktop */}
+          <div className="hidden md:flex items-center gap-2">
+            <label className="cursor-pointer flex items-center gap-2 border border-zinc-200 bg-white text-zinc-700 px-4 py-2 rounded-xl text-sm font-bold hover:bg-zinc-50 transition-all">
+              {uploading
+                ? <span className="w-4 h-4 border-2 border-zinc-300 border-t-zinc-700 rounded-full animate-spin" />
+                : <MdEdit className="text-base" />}
+              {uploading ? 'Uploading…' : 'Update Photo'}
+              <input type="file" accept="image/*" className="hidden" onChange={handleImageUpload} />
+            </label>
+            <button
+              onClick={() => setActiveTab('journal')}
+              className="flex items-center gap-2 bg-zinc-900 text-white px-4 py-2 rounded-xl text-sm font-bold hover:opacity-90 active:scale-95 transition-all"
+            >
+              <GiNotebook className="text-base" />
+              Log Growth
+            </button>
           </div>
-        </nav>
+        </div>
       </header>
 
-      <main className="max-w-7xl mx-auto px-4 md:px-6 py-10 w-full flex-grow">
+      <main className="flex-grow w-full max-w-5xl mx-auto px-4 md:px-6 py-10">
 
+        {/* Error banner */}
         {error && (
           <div className="mb-6 bg-red-50 border border-red-100 text-red-600 text-sm rounded-2xl px-4 py-3 flex items-center gap-2">
-            <span className="flex-shrink-0">⚠️</span> {error}
+            <MdErrorOutline className="flex-shrink-0 text-lg" /> {error}
           </div>
         )}
 
-        {/* Page Header — matches dashboard editorial header style */}
-        <header className="mb-8">
-          <div className="flex flex-col md:flex-row md:items-center justify-between gap-5">
-            <div className="flex items-center gap-4">
-              {/* Plant avatar */}
-              <div className="w-16 h-16 rounded-2xl bg-emerald-100 flex items-center justify-center flex-shrink-0 overflow-hidden border border-emerald-200/60">
-                {userPlant?.imageUrl
-                  ? <img src={userPlant.imageUrl} alt={displayName} className="w-full h-full object-cover" />
-                  : <IoLeaf className="text-2xl text-emerald-500" />
-                }
-              </div>
-              <div>
-                <div className="flex items-center gap-2.5 flex-wrap">
-                  <h1 className="text-3xl font-extrabold text-zinc-900 tracking-tight">{displayName}</h1>
-                  <span className="bg-emerald-100 text-emerald-800 text-[10px] font-extrabold px-2.5 py-1 rounded-full uppercase tracking-wider">
-                    {userPlant.currentStage || 'Growing'}
-                  </span>
-                </div>
-                <p className="text-sm text-zinc-400 mt-0.5 font-medium">
-                  {scientificName && <span className="italic">{scientificName} · </span>}
-                  {days} days old
-                </p>
-              </div>
+        {/* ── Hero header ── */}
+        <header className="mb-10">
+          <div className="flex items-start gap-5">
+            {/* Plant image / placeholder */}
+            <div className="flex-shrink-0">
+              {hasValidImg ? (
+               <img
+  src={displayImg}
+  alt={displayName}
+  onError={() => setImgError(true)}
+  className="w-20 h-20 md:w-24 md:h-24 rounded-2xl object-cover border border-zinc-200"
+/>
+              ) : (
+                <PlantPlaceholder size="lg" />
+              )}
             </div>
 
-            <div className="flex items-center gap-2">
-              <label className="cursor-pointer border border-zinc-200 bg-white text-zinc-700 px-4 py-2.5 rounded-xl text-sm font-bold hover:bg-zinc-50 transition-all flex items-center gap-1.5">
-                {uploading ? (
-                  <span className="block lg:hidden w-4 h-4 border-2 border-zinc-300 border-t-zinc-700 rounded-full animate-spin" />
-                ) : (
-                  <MdEdit className="text-base" />
-                )}
-               <p className={'hidden lg:block'}> {uploading ? 'Uploading…' : 'Update Photo'}</p>
-                <input type="file" accept="image/*" className="hidden" onChange={handleImageUpload} />
-              </label>
-
-              <button
-                onClick={() => setActiveTab('journal')}
-                className="bg-zinc-900 text-white px-5 py-2.5 rounded-xl text-sm font-bold hover:opacity-90 active:scale-95 transition-all shadow-sm">
-                  <GiNotebook className="text-base"/>
-                 <p className="hidden lg:block">Log Growth</p>
-              </button>
-            
+            {/* Title block */}
+            <div className="flex-grow min-w-0">
+              <div className="flex flex-wrap items-center gap-2 mb-1">
+                <h1 className="text-3xl md:text-4xl font-extrabold text-zinc-900 tracking-tight truncate">
+                  {displayName}
+                </h1>
+                <StagePill stage={userPlant.currentStage} />
+              </div>
+              {scientificName && (
+                <p className="text-sm text-zinc-400 font-medium italic">{scientificName}</p>
+              )}
+              <p className="text-sm text-zinc-400 font-medium mt-0.5">
+                {days} {days === 1 ? 'day' : 'days'} old
+              </p>
             </div>
+          </div>
+
+          {/* Mobile actions below header */}
+          <div className="flex items-center gap-2 mt-5 md:hidden">
+            <label className="flex-1 cursor-pointer flex items-center justify-center gap-2 border border-zinc-200 bg-white text-zinc-700 py-2.5 rounded-xl text-sm font-bold hover:bg-zinc-50 transition-all">
+              {uploading
+                ? <span className="w-4 h-4 border-2 border-zinc-300 border-t-zinc-700 rounded-full animate-spin" />
+                : <MdEdit className="text-base" />}
+              {uploading ? 'Uploading…' : 'Update Photo'}
+              <input type="file" accept="image/*" className="hidden" onChange={handleImageUpload} />
+            </label>
+            <button
+              onClick={() => setActiveTab('journal')}
+              className="flex-1 flex items-center justify-center gap-2 bg-zinc-900 text-white py-2.5 rounded-xl text-sm font-bold hover:opacity-90 active:scale-95 transition-all"
+            >
+              <GiNotebook className="text-base" />
+              Log Growth
+            </button>
           </div>
         </header>
 
-        {/* Tab Bar — pill style matching dashboard card aesthetic */}
+        {/* ── Tab bar — matches PlantDirectory pill style ── */}
         <div className="flex items-center gap-1 bg-white border border-zinc-200 rounded-2xl p-1.5 mb-8 overflow-x-auto [scrollbar-width:none]">
-          {tabList.map((tab) => (
+          {TABS.map((tab) => (
             <button
               key={tab.id}
               onClick={() => setActiveTab(tab.id)}
@@ -229,22 +250,26 @@ console.log('days:', daysSincePlanted(result?.userPlant?.plantedDate));
           ))}
         </div>
 
-        {/* Tab Content */}
+        {/* ── Tab content ── */}
         <div className="min-h-[500px]">
-         {activeTab === 'progress' && <ProgressView masterPlant={masterPlant} userPlant={userPlant} journals={journals} />}
-          {activeTab === 'care'     && (
+          {activeTab === 'progress' && (
+            <ProgressView masterPlant={masterPlant} userPlant={userPlant} journals={journals} />
+          )}
+          {activeTab === 'care' && (
             <CareRemindersView reminders={reminders} userId={userId} userPlantId={userPlantId} onRefresh={loadData} />
           )}
-          {activeTab === 'journal'  && (
+          {activeTab === 'journal' && (
             <JournalLogsView journals={journals} userId={userId} userPlantId={userPlantId} onRefresh={loadData} />
           )}
-          {activeTab === 'specs'    && <BotanicalSpecsView masterPlant={masterPlant} />}
+          {activeTab === 'specs' && (
+            <BotanicalSpecsView masterPlant={masterPlant} />
+          )}
         </div>
       </main>
 
-      {/* Footer */}
+      {/* ── Footer — matches PlantDirectory ── */}
       <footer className="bg-white border-t border-zinc-200/80 flex flex-col items-center gap-2 w-full px-6 py-6 mt-12">
-        <div className="flex items-center gap-1.5">
+        <div className="flex items-center gap-1.5 mb-1">
           <IoLeaf className="text-emerald-600 text-lg" />
           <span className="text-sm font-extrabold text-zinc-900">PlantAid</span>
         </div>
@@ -253,7 +278,9 @@ console.log('days:', daysSincePlanted(result?.userPlant?.plantedDate));
           <a className="text-zinc-400 hover:text-emerald-700 transition-colors text-xs font-medium" href="#">Privacy Policy</a>
           <a className="text-zinc-400 hover:text-emerald-700 transition-colors text-xs font-medium" href="#">Help Center</a>
         </div>
-        <p className="text-xs text-zinc-300 font-medium mt-1">© {new Date().getFullYear()} PlantAid. Botanical Precision.</p>
+        <p className="text-xs text-zinc-400/60 font-medium mt-1">
+          © {new Date().getFullYear()} PlantAid. Botanical Precision.
+        </p>
       </footer>
     </div>
   );

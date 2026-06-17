@@ -1,10 +1,11 @@
 import React from 'react';
 
 
-import { MdPersonOutline,MdNotificationsNone, MdDeveloperBoard, MdGavel, MdHelpOutline, MdChevronRight, MdLogout,} from 'react-icons/md';
+import { MdPersonOutline,MdNotificationsNone, MdDeveloperBoard, MdGavel, MdHelpOutline,
+   MdChevronRight, MdLogout, MdDarkMode} from 'react-icons/md';
 
 
-export default function SettingsMenu({ onOpen, profileName }) {
+export default function SettingsMenu({ onOpen, profileName, dark, toggleTheme }) {
   const settingsRows = [
     { label: 'Profile Adjustments',  icon: MdPersonOutline,     modal: 'profile'       },
     { label: 'Notification Toggles', icon: MdNotificationsNone, modal: 'notifications' },
@@ -15,9 +16,9 @@ export default function SettingsMenu({ onOpen, profileName }) {
 
   return (
     <div className="flex flex-col gap-2">
-      <h2 className="text-lg sm:text-xl font-bold px-1 mb-3 text-black">Suite Configuration</h2>
+      <h2 className="text-lg sm:text-xl font-bold px-1 mb-3 text-black dark:text-white">Suite Configuration</h2>
 
-      <div className="flex flex-col bg-white border border-[#c8c5ca]/50 rounded-3xl overflow-hidden shadow-[0_10px_30px_-10px_rgba(0,0,0,0.05)]">
+      <div className="flex flex-col bg-white dark:bg-zinc-900 border border-[#c8c5ca]/50 dark:border-zinc-700/50 rounded-3xl overflow-hidden shadow-[0_10px_30px_-10px_rgba(0,0,0,0.05)] dark:shadow-zinc-900/20">
         {settingsRows.map((row, index) => (
           <React.Fragment key={index}>
             <button
@@ -36,6 +37,10 @@ export default function SettingsMenu({ onOpen, profileName }) {
           </React.Fragment>
         ))}
       </div>
+
+
+
+
 
       <button
         onClick={() => onOpen('logout')}

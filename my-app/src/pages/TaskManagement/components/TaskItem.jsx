@@ -34,7 +34,7 @@ export default function TaskItem({ task, userPlants, onToggle, onDelete }) {
         ? 'bg-zinc-50 border-zinc-100 opacity-60'
         : isOverdue
           ? 'bg-red-50/40 border-red-100'
-          : 'bg-white border-[#c8c5ca]/40 hover:border-[#1b6b51]/40 hover:shadow-sm'
+          : 'bg-white dark:bg-zinc-900 border-[#c8c5ca]/40 dark:border-zinc-700/50 hover:border-[#1b6b51]/40 hover:shadow-sm'
     }`}>
       {/* Category icon */}
       <div className={`w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0 mt-0.5 ${clr.bg} ${clr.text}`}>
@@ -50,7 +50,7 @@ export default function TaskItem({ task, userPlants, onToggle, onDelete }) {
           )}
         </div>
         <h4 className={`text-sm font-bold leading-snug ${
-          task.completed ? 'line-through text-[#47464a]' : 'text-black'
+          task.completed ? 'line-through text-[#47464a] dark:text-gray-500' : 'text-black dark:text-white'
         }`} style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
           {task.title}
         </h4>

@@ -95,13 +95,13 @@ export default function AddReminderModal({ userId, onClose }) {
   return (
     <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center p-0 sm:p-4 bg-black/40 backdrop-blur-sm">
       <div
-        className="w-full max-w-md bg-white rounded-t-3xl sm:rounded-3xl shadow-2xl p-4 sm:p-6 space-y-4 sm:space-y-5 max-h-[92vh] sm:max-h-[85vh] overflow-y-auto pb-safe-bottom"
+        className="w-full max-w-md bg-white dark:bg-[#1a1a1a] rounded-t-3xl sm:rounded-3xl shadow-2xl p-4 sm:p-6 space-y-4 sm:space-y-5 max-h-[92vh] sm:max-h-[85vh] overflow-y-auto pb-safe-bottom"
         style={{ animation: 'fadeUp 0.2s ease-out' }}
       >
         {/* Modal Header */}
         <div className="flex items-center justify-between">
           <h2
-            className="text-base sm:text-lg font-bold text-black tracking-tight"
+            className="text-base sm:text-lg font-bold text-black dark:text-white tracking-tight"
             style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}
           >
             New Reminder
@@ -138,7 +138,7 @@ export default function AddReminderModal({ userId, onClose }) {
               <select
                 value={form.userPlantId}
                 onChange={(e) => set('userPlantId', e.target.value)}
-                className="w-full bg-[#fbf8ff] border border-[#c8c5ca]/60 rounded-xl px-3 py-2.5 text-sm text-black font-medium focus:outline-none focus:border-[#1b6b51] transition"
+                className="w-full bg-[#fbf8ff] dark:bg-zinc-800 border border-[#c8c5ca]/60 dark:border-zinc-700 rounded-xl px-3 py-2.5 text-sm text-black dark:text-white font-medium focus:outline-none focus:border-[#1b6b51] transition"
               >
                 {userPlants.map((up) => (
                   <option key={up.id} value={up.id}>{up.nickname}</option>
@@ -152,7 +152,7 @@ export default function AddReminderModal({ userId, onClose }) {
                   value={form.customPlantName || ''}
                   onChange={(e) => set('customPlantName', e.target.value)}
                   placeholder="e.g. My Sunflower"
-                  className="w-full bg-[#fbf8ff] border border-[#c8c5ca]/60 rounded-xl px-3 py-2.5 text-sm text-black placeholder-[#c8c5ca] focus:outline-none focus:border-[#1b6b51] transition mt-2"
+                  className="w-full bg-[#fbf8ff] dark:bg-zinc-800 border border-[#c8c5ca]/60 dark:border-zinc-700 rounded-xl px-3 py-2.5 text-sm text-black dark:text-white placeholder-[#c8c5ca] dark:placeholder-zinc-500 focus:outline-none focus:border-[#1b6b51] transition mt-2"
                 />
               )}
             </>
@@ -167,7 +167,7 @@ export default function AddReminderModal({ userId, onClose }) {
             value={form.title}
             onChange={(e) => set('title', e.target.value)}
             placeholder="e.g. Water the tomatoes"
-            className="w-full bg-[#fbf8ff] border border-[#c8c5ca]/60 rounded-xl px-3 py-2.5 text-sm text-black placeholder-[#c8c5ca] focus:outline-none focus:border-[#1b6b51] transition"
+            className="w-full bg-[#fbf8ff] dark:bg-zinc-800 border border-[#c8c5ca]/60 dark:border-zinc-700 rounded-xl px-3 py-2.5 text-sm text-black dark:text-white placeholder-[#c8c5ca] dark:placeholder-zinc-500 focus:outline-none focus:border-[#1b6b51] transition"
           />
         </div>
 
@@ -204,7 +204,7 @@ export default function AddReminderModal({ userId, onClose }) {
             type="datetime-local"
             value={form.reminderDate}
             onChange={(e) => set('reminderDate', e.target.value)}
-            className="w-full bg-[#fbf8ff] border border-[#c8c5ca]/60 rounded-xl px-3 py-2.5 text-sm text-black focus:outline-none focus:border-[#1b6b51] transition"
+            className="w-full bg-[#fbf8ff] dark:bg-zinc-800 border border-[#c8c5ca]/60 dark:border-zinc-700 rounded-xl px-3 py-2.5 text-sm text-black dark:text-white focus:outline-none focus:border-[#1b6b51] transition"
           />
         </div>
 
