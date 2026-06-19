@@ -1,22 +1,114 @@
-import  { useState, useRef, } from 'react';
+import { useState, useRef } from 'react';
 import {
   MdPhotoCamera,
   MdUploadFile,
+  MdClose,
 } from 'react-icons/md';
-import { ORGANS } from '../utils/diagnosticUtils'
-
+import { ORGANS } from '../utils/diagnosticUtils';
 
 export default function ScannerViewport({ activeOrgan, setActiveOrgan, onFileSelected, scanning, preview }) {
   const [isDragging, setIsDragging] = useState(false);
+  const [cameraOpen, setCameraOpen] = useState(false);
+  const [stream, setStream] = useState(null);
+
   const fileRef = useRef(null);
+  const cameraInputRef = useRef(null);
+  const videoRef = useRef(null);
+  const canvasRef = useRef(null);
 
   const handleFile = (file) => {
     if (!file || !file.type.startsWith('image/')) return;
     onFileSelected(file);
   };
 
+  // ── Native camera capture (mobile) ──────────────────────
+  const handleCameraCapture = () => {
+    cameraInputRef.current?.click();
+  };
+
+  // ── In-browser webcam (desktop fallback) ────────────────
+  const openWebcam = async () => {
+    try {
+      const mediaStream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } });
+      setStream(mediaStream);
+      setCameraOpen(true);
+      setTimeout(() => {
+        if (videoRef.current) {
+          videoRef.current.srcObject = mediaStream;
+          videoRef.current.play();
+        }
+      }, 100);
+    } catch (err) {
+      console.error('Camera error:', err);
+      // fallback to file input
+      cameraInputRef.current?.click();
+    }
+  };
+
+  const closeWebcam = () => {
+    stream?.getTracks().forEach(t => t.stop());
+    setStream(null);
+    setCameraOpen(false);
+  };
+
+  const captureFromWebcam = () => {
+    const video = videoRef.current;
+    const canvas = canvasRef.current;
+    if (!video || !canvas) return;
+
+    canvas.width = video.videoWidth;
+    canvas.height = video.videoHeight;
+    canvas.getContext('2d').drawImage(video, 0, 0);
+
+    canvas.toBlob((blob) => {
+      if (!blob) return;
+      const file = new File([blob], `capture_${Date.now()}.jpg`, { type: 'image/jpeg' });
+      closeWebcam();
+      onFileSelected(file);
+    }, 'image/jpeg', 0.92);
+  };
+
+  // Detect mobile to use native camera input instead of webcam API
+  const isMobile = /Mobi|Android|iPhone|iPad/i.test(navigator.userAgent);
+
   return (
-      <div className="w-full flex flex-col items-center gap-6">
+    <div className="w-full flex flex-col items-center gap-6">
+
+      {/* ── Webcam Modal (desktop) ─────────────────────── */}
+      {cameraOpen && (
+        <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex flex-col items-center justify-center gap-4 p-4">
+          <div className="relative w-full max-w-lg rounded-[24px] overflow-hidden border-4 border-[#1b6b51] shadow-2xl bg-black">
+            <video
+              ref={videoRef}
+              className="w-full h-auto"
+              autoPlay
+              playsInline
+              muted
+            />
+            <canvas ref={canvasRef} className="hidden" />
+
+            {/* Close */}
+            <button
+              onClick={closeWebcam}
+              className="absolute top-3 right-3 w-9 h-9 rounded-full bg-black/60 flex items-center justify-center text-white hover:bg-black transition"
+            >
+              <MdClose className="text-xl" />
+            </button>
+          </div>
+
+          {/* Capture button */}
+          <button
+            onClick={captureFromWebcam}
+            className="w-[72px] h-[72px] rounded-full bg-white border-4 border-[#1b6b51] flex items-center justify-center shadow-xl active:scale-90 transition-all"
+          >
+            <MdPhotoCamera className="text-[32px] text-[#1b6b51]" />
+          </button>
+
+          <p className="text-white/60 text-xs">Tap the button to capture</p>
+        </div>
+      )}
+
+      {/* ── Scanner Viewport ───────────────────────────── */}
       <div
         onDragOver={(e) => { e.preventDefault(); setIsDragging(true); }}
         onDragLeave={() => setIsDragging(false)}
@@ -85,28 +177,55 @@ export default function ScannerViewport({ activeOrgan, setActiveOrgan, onFileSel
         <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black/60 pointer-events-none" />
       </div>
 
-      <input ref={fileRef} type="file" accept="image/*" className="hidden"
-        onChange={(e) => handleFile(e.target.files?.[0])} />
+      {/* ── Hidden file inputs ─────────────────────────── */}
+      <input
+        ref={fileRef}
+        type="file"
+        accept="image/*"
+        className="hidden"
+        onChange={(e) => handleFile(e.target.files?.[0])}
+      />
+      {/* Mobile native camera capture */}
+      <input
+        ref={cameraInputRef}
+        type="file"
+        accept="image/*"
+        capture="environment"
+        className="hidden"
+        onChange={(e) => handleFile(e.target.files?.[0])}
+      />
 
+      {/* ── Action Buttons ─────────────────────────────── */}
       <div className="flex flex-col sm:flex-row items-center gap-4">
-        <div className="relative group">
-          <div className="absolute inset-0 bg-[#1b6b51]/20 rounded-full blur-xl group-hover:scale-125 transition-transform duration-500" />
+
+        {/* Camera button */}
+        <div className="flex flex-col items-center gap-1.5">
+          <div className="relative group">
+            <div className="absolute inset-0 bg-[#1b6b51]/20 rounded-full blur-xl group-hover:scale-125 transition-transform duration-500" />
+            <button
+              onClick={() => { if (scanning) return; isMobile ? handleCameraCapture() : openWebcam(); }}
+              disabled={scanning}
+              className="relative z-10 w-[72px] h-[72px] bg-black text-white rounded-full flex items-center justify-center shadow-lg active:scale-90 transition-all duration-200 border-4 border-[#fbf8ff] hover:bg-zinc-900 disabled:opacity-50 disabled:cursor-wait"
+            >
+              <MdPhotoCamera className="text-[28px]" />
+            </button>
+          </div>
+          <span className="text-[11px] text-zinc-500 font-medium">Take Photo</span>
+        </div>
+
+        <div className="text-zinc-400 text-xs font-semibold">or</div>
+
+        {/* Upload from gallery */}
+        <div className="flex flex-col items-center gap-1.5">
           <button
             onClick={() => !scanning && fileRef.current?.click()}
             disabled={scanning}
-            className="relative z-10 w-[72px] h-[72px] bg-black text-white rounded-full flex items-center justify-center shadow-lg active:scale-90 transition-all duration-200 border-4 border-[#fbf8ff] hover:bg-zinc-900 disabled:opacity-50 disabled:cursor-wait"
+            className="w-[72px] h-[72px] rounded-full border-2 border-dashed border-[#1b6b51]/50 flex items-center justify-center text-[#1b6b51] hover:bg-[#1b6b51]/10 active:scale-90 transition-all disabled:opacity-40"
           >
-            <MdPhotoCamera className="text-[28px]" />
+            <MdUploadFile className="text-[28px]" />
           </button>
+          <span className="text-[11px] text-zinc-500 font-medium">Upload File</span>
         </div>
-        <button
-          onClick={() => !scanning && fileRef.current?.click()}
-          disabled={scanning}
-          className="text-sm text-[#1b6b51] font-semibold flex items-center gap-2 hover:opacity-75 transition-opacity disabled:opacity-40"
-        >
-          <MdUploadFile className="text-lg" />
-          Or upload from device gallery
-        </button>
       </div>
     </div>
   );
